@@ -41,6 +41,11 @@ gql`
     successRedirectUrl
   }
 
+  fragment MoneyhashForCreateAndEditSuccessRedirectUrl on MoneyhashProvider {
+    id
+    successRedirectUrl
+  }
+
   mutation updateAdyenPaymentProvider($input: UpdateAdyenPaymentProviderInput!) {
     updateAdyenPaymentProvider(input: $input) {
       id
@@ -87,11 +92,11 @@ type LocalProviderType = {
   mode: keyof typeof AddEditDeleteSuccessRedirectUrlDialogMode
   type: keyof typeof AddEditDeleteSuccessRedirectUrlDialogProviderType
   provider?:
-    | AdyenForCreateAndEditSuccessRedirectUrlFragment
-    | GocardlessForCreateAndEditSuccessRedirectUrlFragment
-    | StripeForCreateAndEditSuccessRedirectUrlFragment
-    | MoneyhashForCreateAndEditSuccessRedirectUrlFragment
-    | null
+  | AdyenForCreateAndEditSuccessRedirectUrlFragment
+  | GocardlessForCreateAndEditSuccessRedirectUrlFragment
+  | StripeForCreateAndEditSuccessRedirectUrlFragment
+  | MoneyhashForCreateAndEditSuccessRedirectUrlFragment
+  | null
 }
 
 export interface AddEditDeleteSuccessRedirectUrlDialogRef {
