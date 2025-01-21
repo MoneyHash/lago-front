@@ -43,7 +43,8 @@ gql`
 
   fragment MoneyhashForCreateAndEditSuccessRedirectUrl on MoneyhashProvider {
     id
-    successRedirectUrl
+    flowId
+    redirectUrl
   }
 
   mutation updateAdyenPaymentProvider($input: UpdateAdyenPaymentProviderInput!) {
@@ -70,7 +71,8 @@ gql`
   mutation updateMoneyhashPaymentProvider($input: UpdateMoneyhashPaymentProviderInput!) {
     updateMoneyhashPaymentProvider(input: $input) {
       id
-      successRedirectUrl
+      flowId
+      redirectUrl
     }
   }
 `

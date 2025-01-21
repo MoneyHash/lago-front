@@ -46,10 +46,8 @@ gql`
     id
     apiKey
     code
-    failedRedirectUrl
-    successRedirectUrl
-    pendingRedirectUrl
-    webhookRedirectUrl
+    flowId
+    redirectUrl
     name
   }
   query getMoneyhashIntegrationsDetails($id: ID!, $limit: Int, $type: ProviderTypeEnum) {
@@ -272,10 +270,10 @@ const MoneyhashIntegrationDetails = () => {
                   </Avatar>
                   <div>
                     <Typography variant="caption" color="grey600">
-                      {translate('text_1733729620554tspzhwa5d3t')}
+                      {translate('text_1737453888927uw38sepj7xy')}
                     </Typography>
                     <Typography variant="body" color="grey700">
-                      {moneyhashPaymentProvider?.successRedirectUrl}
+                      {moneyhashPaymentProvider?.flowId}
                     </Typography>
                   </div>
                 </ApiKeyItem>
@@ -286,36 +284,10 @@ const MoneyhashIntegrationDetails = () => {
                   </Avatar>
                   <div>
                     <Typography variant="caption" color="grey600">
-                      {translate('text_1733729624253c5lsxyvwal7')}
+                      {translate('text_1733729620554tspzhwa5d3t')}
                     </Typography>
                     <Typography variant="body" color="grey700">
-                      {moneyhashPaymentProvider?.failedRedirectUrl}
-                    </Typography>
-                  </div>
-                </ApiKeyItem>
-                <ApiKeyItem>
-                  <Avatar variant="connector" size="big">
-                    <Icon name="globe" color="dark" />
-                  </Avatar>
-                  <div>
-                    <Typography variant="caption" color="grey600">
-                      {translate('text_17337296266252mlh212u2wb')}
-                    </Typography>
-                    <Typography variant="body" color="grey700">
-                      {moneyhashPaymentProvider?.pendingRedirectUrl}
-                    </Typography>
-                  </div>
-                </ApiKeyItem>
-                <ApiKeyItem>
-                  <Avatar variant="connector" size="big">
-                    <Icon name="globe" color="dark" />
-                  </Avatar>
-                  <div>
-                    <Typography variant="caption" color="grey600">
-                      {translate('text_173372976803867ab7rn8nav')}
-                    </Typography>
-                    <Typography variant="body" color="grey700">
-                      {moneyhashPaymentProvider?.webhookRedirectUrl}
+                      {moneyhashPaymentProvider?.redirectUrl}
                     </Typography>
                   </div>
                 </ApiKeyItem>

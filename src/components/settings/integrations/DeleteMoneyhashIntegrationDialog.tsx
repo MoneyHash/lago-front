@@ -47,7 +47,7 @@ export const DeleteMoneyhashIntegrationDialog = forwardRef<DeleteMoneyhashIntegr
           dialogRef.current?.closeDialog()
           localData?.callback?.()
           addToast({
-            message: translate('text_645d071272418a14c1c76b25'),
+            message: translate('text_1737463302046fgixue5wtvu'),
             severity: 'success',
           })
         }

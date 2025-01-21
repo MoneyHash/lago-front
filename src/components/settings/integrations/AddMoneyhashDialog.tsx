@@ -118,6 +118,7 @@ export const AddMoneyhashDialog = forwardRef<AddMoneyhashDialogRef>((_, ref) => 
       name: moneyhashProvider?.name || '',
       code: moneyhashProvider?.code || '',
       apiKey: moneyhashProvider?.apiKey || '',
+      flowId: moneyhashProvider?.flowId || '',
       redirectUrl: moneyhashProvider?.redirectUrl || '',
     },
     validationSchema: object().shape({
