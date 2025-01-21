@@ -118,27 +118,20 @@ export const AddMoneyhashDialog = forwardRef<AddMoneyhashDialogRef>((_, ref) => 
       name: moneyhashProvider?.name || '',
       code: moneyhashProvider?.code || '',
       apiKey: moneyhashProvider?.apiKey || '',
-      successRedirectUrl: moneyhashProvider?.successRedirectUrl || '',
-      failedRedirectUrl: moneyhashProvider?.failedRedirectUrl || '',
-      pendingRedirectUrl: moneyhashProvider?.pendingRedirectUrl || '',
-      webhookRedirectUrl: moneyhashProvider?.webhookRedirectUrl || '',
+      redirectUrl: moneyhashProvider?.redirectUrl || '',
     },
     validationSchema: object().shape({
-      name: string(),
+      name: string().required(''),
       code: string().required(''),
-      apiKey: string(),
-      successRedirectUrl: string(),
-      failedRedirectUrl: string(),
-      pendingRedirectUrl: string(),
-      webhookRedirectUrl: string().required(''),
+      apiKey: string().required(''),
+      flowId: string(),
+      redirectUrl: string().url(),
     }),
     onSubmit: async (
       {
         apiKey,
-        successRedirectUrl,
-        failedRedirectUrl,
-        pendingRedirectUrl,
-        webhookRedirectUrl,
+        flowId,
+        redirectUrl,
         ...values
       },
       formikBag,
@@ -167,10 +160,8 @@ export const AddMoneyhashDialog = forwardRef<AddMoneyhashDialogRef>((_, ref) => 
             input: {
               ...values,
               id: moneyhashProvider?.id,
-              successRedirectUrl,
-              failedRedirectUrl,
-              pendingRedirectUrl,
-              webhookRedirectUrl,
+              flowId,
+              redirectUrl,
             },
           },
         })
@@ -180,10 +171,8 @@ export const AddMoneyhashDialog = forwardRef<AddMoneyhashDialogRef>((_, ref) => 
             input: {
               ...values,
               apiKey,
-              successRedirectUrl,
-              failedRedirectUrl,
-              pendingRedirectUrl,
-              webhookRedirectUrl,
+              flowId,
+              redirectUrl,
             },
           },
         })
@@ -281,27 +270,15 @@ export const AddMoneyhashDialog = forwardRef<AddMoneyhashDialogRef>((_, ref) => 
           formikProps={formikProps}
         />
         <TextInputField
-          name="successRedirectUrl"
+          name="flowId"
+          label={translate('text_1737453888927uw38sepj7xy')}
+          placeholder={translate('text_1737453902655bnm8uycr7o7')}
+          formikProps={formikProps}
+        />
+        <TextInputField
+          name="redirectUrl"
           label={translate('text_1733729620554tspzhwa5d3t')}
           placeholder={translate('text_1733729622776cyub16g4it0')}
-          formikProps={formikProps}
-        />
-        <TextInputField
-          name="failedRedirectUrl"
-          label={translate('text_1733729624253c5lsxyvwal7')}
-          placeholder={translate('text_17337296256405ibboaa38oq')}
-          formikProps={formikProps}
-        />
-        <TextInputField
-          name="pendingRedirectUrl"
-          label={translate('text_17337296266252mlh212u2wb')}
-          placeholder={translate('text_173372962787260vsygacc1i')}
-          formikProps={formikProps}
-        />
-        <TextInputField
-          name="webhookRedirectUrl"
-          label={translate('text_173372976803867ab7rn8nav')}
-          placeholder={translate('text_1733729769074rmlw2o104ap')}
           formikProps={formikProps}
         />
       </Content>
