@@ -124,7 +124,7 @@ export const AddMoneyhashDialog = forwardRef<AddMoneyhashDialogRef>((_, ref) => 
       name: string().required(''),
       code: string().required(''),
       apiKey: string().required(''),
-      flowId: string(),
+      flowId: string().required(''),
     }),
     onSubmit: async (
       {

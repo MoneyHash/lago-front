@@ -272,7 +272,7 @@ const MoneyhashIntegrationDetails = () => {
                       {translate('text_1737453888927uw38sepj7xy')}
                     </Typography>
                     <Typography variant="body" color="grey700">
-                      {moneyhashPaymentProvider?.flowId}
+                      {moneyhashPaymentProvider.flowId}
                     </Typography>
                   </div>
                 </ApiKeyItem>
