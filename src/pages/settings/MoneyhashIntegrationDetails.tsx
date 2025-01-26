@@ -47,7 +47,6 @@ gql`
     apiKey
     code
     flowId
-    redirectUrl
     name
   }
   query getMoneyhashIntegrationsDetails($id: ID!, $limit: Int, $type: ProviderTypeEnum) {
@@ -274,20 +273,6 @@ const MoneyhashIntegrationDetails = () => {
                     </Typography>
                     <Typography variant="body" color="grey700">
                       {moneyhashPaymentProvider?.flowId}
-                    </Typography>
-                  </div>
-                </ApiKeyItem>
-
-                <ApiKeyItem>
-                  <Avatar variant="connector" size="big">
-                    <Icon name="globe" color="dark" />
-                  </Avatar>
-                  <div>
-                    <Typography variant="caption" color="grey600">
-                      {translate('text_1733729620554tspzhwa5d3t')}
-                    </Typography>
-                    <Typography variant="body" color="grey700">
-                      {moneyhashPaymentProvider?.redirectUrl}
                     </Typography>
                   </div>
                 </ApiKeyItem>

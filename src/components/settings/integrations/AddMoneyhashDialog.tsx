@@ -119,20 +119,17 @@ export const AddMoneyhashDialog = forwardRef<AddMoneyhashDialogRef>((_, ref) => 
       code: moneyhashProvider?.code || '',
       apiKey: moneyhashProvider?.apiKey || '',
       flowId: moneyhashProvider?.flowId || '',
-      redirectUrl: moneyhashProvider?.redirectUrl || '',
     },
     validationSchema: object().shape({
       name: string().required(''),
       code: string().required(''),
       apiKey: string().required(''),
       flowId: string(),
-      redirectUrl: string().url(),
     }),
     onSubmit: async (
       {
         apiKey,
         flowId,
-        redirectUrl,
         ...values
       },
       formikBag,
@@ -162,7 +159,6 @@ export const AddMoneyhashDialog = forwardRef<AddMoneyhashDialogRef>((_, ref) => 
               ...values,
               id: moneyhashProvider?.id,
               flowId,
-              redirectUrl,
             },
           },
         })
@@ -173,7 +169,6 @@ export const AddMoneyhashDialog = forwardRef<AddMoneyhashDialogRef>((_, ref) => 
               ...values,
               apiKey,
               flowId,
-              redirectUrl,
             },
           },
         })
@@ -274,12 +269,6 @@ export const AddMoneyhashDialog = forwardRef<AddMoneyhashDialogRef>((_, ref) => 
           name="flowId"
           label={translate('text_1737453888927uw38sepj7xy')}
           placeholder={translate('text_1737453902655bnm8uycr7o7')}
-          formikProps={formikProps}
-        />
-        <TextInputField
-          name="redirectUrl"
-          label={translate('text_1733729620554tspzhwa5d3t')}
-          placeholder={translate('text_1733729622776cyub16g4it0')}
           formikProps={formikProps}
         />
       </Content>
