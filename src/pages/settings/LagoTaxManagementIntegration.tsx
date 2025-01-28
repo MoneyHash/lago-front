@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 import { Stack } from '@mui/material'
 import { useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { generatePath, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
 import {
@@ -17,6 +17,7 @@ import {
 import { WarningDialog } from '~/components/WarningDialog'
 import { addToast } from '~/core/apolloClient'
 import { CountryCodes } from '~/core/constants/countryCodes'
+import { IntegrationsTabsOptionsEnum } from '~/core/constants/tabsOptions'
 import { intlFormatNumber } from '~/core/formats/intlFormatNumber'
 import {
   INTEGRATIONS_ROUTE,
@@ -92,10 +93,12 @@ const LagoTaxManagementIntegration = () => {
 
   return (
     <>
-      <PageHeader withSide>
-        <HeaderBlock>
+      <PageHeader.Wrapper withSide>
+        <PageHeader.Group>
           <ButtonLink
-            to={INTEGRATIONS_ROUTE}
+            to={generatePath(INTEGRATIONS_ROUTE, {
+              integrationGroup: IntegrationsTabsOptionsEnum.Lago,
+            })}
             type="button"
             buttonProps={{ variant: 'quaternary', icon: 'arrow-left' }}
           />
@@ -106,7 +109,7 @@ const LagoTaxManagementIntegration = () => {
               {translate('text_657078c28394d6b1ae1b9713')}
             </Typography>
           )}
-        </HeaderBlock>
+        </PageHeader.Group>
         {hasPermissions(['organizationIntegrationsDelete']) && (
           <Button
             variant="secondary"
@@ -116,7 +119,7 @@ const LagoTaxManagementIntegration = () => {
             {translate('text_657078c28394d6b1ae1b971b')}
           </Button>
         )}
-      </PageHeader>
+      </PageHeader.Wrapper>
       <MainInfos>
         {loading ? (
           <>
@@ -201,10 +204,10 @@ const LagoTaxManagementIntegration = () => {
           </InlineTitle>
 
           {loading ? (
-            <HeaderBlock>
+            <div className="flex items-center gap-3">
               <Skeleton variant="connectorAvatar" size="big" className="mr-4" />
               <Skeleton variant="text" className="w-60" />
-            </HeaderBlock>
+            </div>
           ) : (
             <>
               {taxesData?.taxes?.collection.map((tax) => (
@@ -246,21 +249,16 @@ const LagoTaxManagementIntegration = () => {
             },
           })
 
-          navigate(INTEGRATIONS_ROUTE)
+          navigate(
+            generatePath(INTEGRATIONS_ROUTE, {
+              integrationGroup: IntegrationsTabsOptionsEnum.Lago,
+            }),
+          )
         }}
       />
     </>
   )
 }
-
-const HeaderBlock = styled.div`
-  display: flex;
-  align-items: center;
-
-  > *:first-child {
-    margin-right: ${theme.spacing(3)};
-  }
-`
 
 const MainInfos = styled.div`
   display: flex;

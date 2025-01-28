@@ -49,6 +49,7 @@ export const InvoiceAvailableFilters = [
   AvailableFiltersEnum.paymentOverdue,
   AvailableFiltersEnum.paymentStatus,
   AvailableFiltersEnum.status,
+  AvailableFiltersEnum.amount,
 ]
 
 const translationMap: Record<AvailableFiltersEnum, string> = {
@@ -65,6 +66,14 @@ const translationMap: Record<AvailableFiltersEnum, string> = {
   [AvailableFiltersEnum.creditNoteReason]: 'text_1734703891144ptrs5sty2bg',
   [AvailableFiltersEnum.creditNoteCreditStatus]: 'text_173470389114473bzrbyh6va',
   [AvailableFiltersEnum.creditNoteRefundStatus]: 'text_1734703891144vv5iclhl4vz',
+}
+
+export type FiltersFormValues = {
+  filters: Array<{
+    filterType?: AvailableFiltersEnum
+    value?: string
+    disabled?: boolean
+  }>
 }
 
 export const mapFilterToTranslationKey = (filter: AvailableFiltersEnum) => {

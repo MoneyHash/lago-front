@@ -48,6 +48,7 @@ import { PremiumWarningDialog, PremiumWarningDialogRef } from '~/components/Prem
 import { REDIRECTION_ORIGIN_SUBSCRIPTION_USAGE } from '~/components/subscriptions/SubscriptionUsageLifetimeGraph'
 import { WarningDialog, WarningDialogRef } from '~/components/WarningDialog'
 import { dateErrorCodes, FORM_TYPE_ENUM } from '~/core/constants/form'
+import { CustomerSubscriptionDetailsTabsOptionsEnum } from '~/core/constants/tabsOptions'
 import {
   CUSTOMER_DETAILS_ROUTE,
   CUSTOMER_SUBSCRIPTION_DETAILS_ROUTE,
@@ -73,8 +74,6 @@ import { useOrganizationInfos } from '~/hooks/useOrganizationInfos'
 import { useSalesForceConfig } from '~/hooks/useSalesForceConfig'
 import ThinkingManeki from '~/public/images/maneki/thinking.svg'
 import { BREAKPOINT_LG, NAV_HEIGHT, PageHeader, theme } from '~/styles'
-
-import { CustomerSubscriptionDetailsTabsOptionsEnum } from './SubscriptionDetails'
 
 gql`
   fragment AddSubscriptionPlan on Plan {
@@ -498,7 +497,7 @@ const CreateSubscription = () => {
 
   return (
     <PageContainer>
-      <PageHeader>
+      <PageHeader.Wrapper>
         <Typography variant="bodyHl" color="textSecondary" noWrap>
           {pageHeaderTitle}
         </Typography>
@@ -548,7 +547,7 @@ const CreateSubscription = () => {
             data-test="close-create-subscription-button"
           />
         )}
-      </PageHeader>
+      </PageHeader.Wrapper>
       <Container>
         <SubscriptionAside
           $isResponsive={isResponsive}

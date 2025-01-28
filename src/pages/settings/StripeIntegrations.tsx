@@ -27,6 +27,7 @@ import {
   DeleteStripeIntegrationDialog,
   DeleteStripeIntegrationDialogRef,
 } from '~/components/settings/integrations/DeleteStripeIntegrationDialog'
+import { IntegrationsTabsOptionsEnum } from '~/core/constants/tabsOptions'
 import { INTEGRATIONS_ROUTE, STRIPE_INTEGRATION_DETAILS_ROUTE } from '~/core/router'
 import {
   AddStripeProviderDialogFragmentDoc,
@@ -86,7 +87,14 @@ const StripeIntegrations = () => {
   })
   const connections = data?.paymentProviders?.collection as StripeProvider[] | undefined
   const deleteDialogCallback =
-    connections && connections.length === 1 ? () => navigate(INTEGRATIONS_ROUTE) : undefined
+    connections && connections.length === 1
+      ? () =>
+          navigate(
+            generatePath(INTEGRATIONS_ROUTE, {
+              integrationGroup: IntegrationsTabsOptionsEnum.Lago,
+            }),
+          )
+      : undefined
 
   const canCreateIntegration = hasPermissions(['organizationIntegrationsCreate'])
   const canEditIntegration = hasPermissions(['organizationIntegrationsUpdate'])
@@ -94,10 +102,12 @@ const StripeIntegrations = () => {
 
   return (
     <>
-      <PageHeader withSide>
-        <HeaderBlock>
+      <PageHeader.Wrapper withSide>
+        <PageHeader.Group>
           <ButtonLink
-            to={INTEGRATIONS_ROUTE}
+            to={generatePath(INTEGRATIONS_ROUTE, {
+              integrationGroup: IntegrationsTabsOptionsEnum.Lago,
+            })}
             type="button"
             buttonProps={{ variant: 'quaternary', icon: 'arrow-left' }}
           />
@@ -108,7 +118,7 @@ const StripeIntegrations = () => {
               {translate('text_62b1edddbf5f461ab971277d')}
             </Typography>
           )}
-        </HeaderBlock>
+        </PageHeader.Group>
 
         {canCreateIntegration && (
           <Button
@@ -120,7 +130,7 @@ const StripeIntegrations = () => {
             {translate('text_65846763e6140b469140e235')}
           </Button>
         )}
-      </PageHeader>
+      </PageHeader.Wrapper>
       <MainInfos>
         {loading ? (
           <>
@@ -172,6 +182,7 @@ const StripeIntegrations = () => {
                         tabIndex={0}
                         to={generatePath(STRIPE_INTEGRATION_DETAILS_ROUTE, {
                           integrationId: connection.id,
+                          integrationGroup: IntegrationsTabsOptionsEnum.Lago,
                         })}
                       >
                         <Stack direction="row" spacing={3} alignItems="center">
@@ -263,15 +274,6 @@ const StripeIntegrations = () => {
     </>
   )
 }
-
-const HeaderBlock = styled.div`
-  display: flex;
-  align-items: center;
-
-  > *:first-child {
-    margin-right: ${theme.spacing(3)};
-  }
-`
 
 const MainInfos = styled.div`
   display: flex;

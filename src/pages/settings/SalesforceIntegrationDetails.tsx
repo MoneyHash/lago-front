@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 import { FC, useRef } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { generatePath, useNavigate, useParams } from 'react-router-dom'
 
 import {
   Avatar,
@@ -21,6 +21,7 @@ import {
   DeleteSalesforceIntegrationDialog,
   DeleteSalesforceIntegrationDialogRef,
 } from '~/components/settings/integrations/DeleteSalesforceIntegrationDialog'
+import { IntegrationsTabsOptionsEnum } from '~/core/constants/tabsOptions'
 import { INTEGRATIONS_ROUTE, SALESFORCE_INTEGRATION_ROUTE } from '~/core/router'
 import {
   DeleteSalesforceIntegrationDialogFragmentDoc,
@@ -95,18 +96,26 @@ const SalesforceIntegrationDetails = () => {
     const integrations = data?.integrations?.collection || []
 
     if (integrations.length >= PROVIDER_CONNECTION_LIMIT) {
-      navigate(SALESFORCE_INTEGRATION_ROUTE)
+      navigate(
+        generatePath(SALESFORCE_INTEGRATION_ROUTE, {
+          integrationGroup: IntegrationsTabsOptionsEnum.Lago,
+        }),
+      )
     } else {
-      navigate(INTEGRATIONS_ROUTE)
+      navigate(
+        generatePath(INTEGRATIONS_ROUTE, { integrationGroup: IntegrationsTabsOptionsEnum.Lago }),
+      )
     }
   }
 
   return (
     <>
-      <PageHeader withSide>
-        <div className="flex items-center gap-3">
+      <PageHeader.Wrapper withSide>
+        <PageHeader.Group>
           <ButtonLink
-            to={SALESFORCE_INTEGRATION_ROUTE}
+            to={generatePath(SALESFORCE_INTEGRATION_ROUTE, {
+              integrationGroup: IntegrationsTabsOptionsEnum.Lago,
+            })}
             type="button"
             buttonProps={{ variant: 'quaternary', icon: 'arrow-left' }}
           />
@@ -117,7 +126,7 @@ const SalesforceIntegrationDetails = () => {
               {salesforceIntegration?.name}
             </Typography>
           )}
-        </div>
+        </PageHeader.Group>
         <Popper
           PopperProps={{ placement: 'bottom-end' }}
           opener={
@@ -160,7 +169,7 @@ const SalesforceIntegrationDetails = () => {
             </MenuPopper>
           )}
         </Popper>
-      </PageHeader>
+      </PageHeader.Wrapper>
       <div className="container">
         <section className="flex items-center py-8">
           {loading ? (

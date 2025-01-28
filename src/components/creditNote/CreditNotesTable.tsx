@@ -4,8 +4,7 @@ import { generatePath, useNavigate } from 'react-router-dom'
 import styled, { css } from 'styled-components'
 
 import CreditNoteBadge from '~/components/creditNote/CreditNoteBadge'
-import { Filters } from '~/components/designSystem/Filters/Filters'
-import { AvailableFiltersEnum } from '~/components/designSystem/Filters/types'
+import { AvailableFiltersEnum, Filters } from '~/components/designSystem/Filters'
 import { addToast } from '~/core/apolloClient'
 import { intlFormatNumber } from '~/core/formats/intlFormatNumber'
 import {
@@ -110,6 +109,7 @@ type TCreditNoteTableProps = {
   variables: LazyQueryHookOptions['variables'] | undefined
   customerTimezone?: TimezoneEnum
   tableContainerSize?: ResponsiveStyleValue<TableContainerSize>
+  showFilters?: boolean
 }
 
 const CreditNoteTableItemSkeleton = () => {
@@ -134,6 +134,7 @@ const CreditNotesTable = ({
   customerTimezone,
   error,
   tableContainerSize,
+  showFilters = true,
 }: TCreditNoteTableProps) => {
   const { translate } = useInternationalization()
   const navigate = useNavigate()
@@ -175,20 +176,24 @@ const CreditNotesTable = ({
 
   return (
     <>
-      <div className="box-border flex w-full flex-col gap-3 p-4 shadow-b md:px-12 md:py-3">
-        <Filters
-          filters={[
-            AvailableFiltersEnum.amount,
-            AvailableFiltersEnum.creditNoteCreditStatus,
-            AvailableFiltersEnum.currency,
-            AvailableFiltersEnum.customerExternalId,
-            AvailableFiltersEnum.invoiceNumber,
-            AvailableFiltersEnum.issuingDate,
-            AvailableFiltersEnum.creditNoteReason,
-            AvailableFiltersEnum.creditNoteRefundStatus,
-          ]}
-        />
-      </div>
+      {showFilters && (
+        <div className="box-border flex w-full flex-col gap-3 p-4 shadow-b md:px-12 md:py-3">
+          <Filters.Provider
+            availableFilters={[
+              AvailableFiltersEnum.amount,
+              AvailableFiltersEnum.creditNoteCreditStatus,
+              AvailableFiltersEnum.currency,
+              AvailableFiltersEnum.customerExternalId,
+              AvailableFiltersEnum.invoiceNumber,
+              AvailableFiltersEnum.issuingDate,
+              AvailableFiltersEnum.creditNoteReason,
+              AvailableFiltersEnum.creditNoteRefundStatus,
+            ]}
+          >
+            <Filters.Component />
+          </Filters.Provider>
+        </div>
+      )}
 
       <ScrollContainer
         ref={listContainerElementRef}

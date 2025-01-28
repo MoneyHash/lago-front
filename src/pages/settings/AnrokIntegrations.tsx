@@ -23,6 +23,7 @@ import {
   DeleteAnrokIntegrationDialog,
   DeleteAnrokIntegrationDialogRef,
 } from '~/components/settings/integrations/DeleteAnrokIntegrationDialog'
+import { IntegrationsTabsOptionsEnum } from '~/core/constants/tabsOptions'
 import { ANROK_INTEGRATION_DETAILS_ROUTE, INTEGRATIONS_ROUTE } from '~/core/router'
 import {
   AddAnrokIntegrationDialogFragmentDoc,
@@ -80,14 +81,23 @@ const AnrokIntegrations = () => {
   })
   const connections = data?.integrations?.collection as AnrokIntegrationsFragment[] | undefined
   const deleteDialogCallback =
-    connections && connections?.length === 1 ? () => navigate(INTEGRATIONS_ROUTE) : undefined
+    connections && connections?.length === 1
+      ? () =>
+          navigate(
+            generatePath(INTEGRATIONS_ROUTE, {
+              integrationGroup: IntegrationsTabsOptionsEnum.Lago,
+            }),
+          )
+      : undefined
 
   return (
     <>
-      <PageHeader withSide>
-        <HeaderBlock>
+      <PageHeader.Wrapper withSide>
+        <PageHeader.Group>
           <ButtonLink
-            to={INTEGRATIONS_ROUTE}
+            to={generatePath(INTEGRATIONS_ROUTE, {
+              integrationGroup: IntegrationsTabsOptionsEnum.Lago,
+            })}
             type="button"
             buttonProps={{ variant: 'quaternary', icon: 'arrow-left' }}
           />
@@ -98,7 +108,7 @@ const AnrokIntegrations = () => {
               {translate('text_6668821d94e4da4dfd8b3834')}
             </Typography>
           )}
-        </HeaderBlock>
+        </PageHeader.Group>
         <Button
           variant="primary"
           onClick={() => {
@@ -107,7 +117,7 @@ const AnrokIntegrations = () => {
         >
           {translate('text_65846763e6140b469140e235')}
         </Button>
-      </PageHeader>
+      </PageHeader.Wrapper>
       <MainInfos>
         {loading ? (
           <>
@@ -160,6 +170,7 @@ const AnrokIntegrations = () => {
                         to={generatePath(ANROK_INTEGRATION_DETAILS_ROUTE, {
                           integrationId: connection.id,
                           tab: AnrokIntegrationDetailsTabs.Settings,
+                          integrationGroup: IntegrationsTabsOptionsEnum.Lago,
                         })}
                       >
                         <Stack direction="row" alignItems="center" spacing={3}>
@@ -242,15 +253,6 @@ const AnrokIntegrations = () => {
     </>
   )
 }
-
-const HeaderBlock = styled.div`
-  display: flex;
-  align-items: center;
-
-  > *:first-child {
-    margin-right: ${theme.spacing(3)};
-  }
-`
 
 const MainInfos = styled.div`
   display: flex;

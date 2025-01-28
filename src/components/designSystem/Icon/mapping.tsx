@@ -71,6 +71,7 @@ import Minus from '~/public/icons/minus.svg'
 import Okta from '~/public/icons/okta.svg'
 import Outside from '~/public/icons/outside.svg'
 import Paperclip from '~/public/icons/paperclip.svg'
+import PartiallyFilled from '~/public/icons/partially-filled.svg'
 import PauseCircleFilled from '~/public/icons/pause-circle-filled.svg'
 import PauseCircleUnfilled from '~/public/icons/pause-circle-unfilled.svg'
 import Pen from '~/public/icons/pen.svg'
@@ -84,6 +85,7 @@ import Pulse from '~/public/icons/pulse.svg'
 import Push from '~/public/icons/push.svg'
 import Puzzle from '~/public/icons/puzzle.svg'
 import QuestionCircle from '~/public/icons/question-circle.svg'
+import Receipt from '~/public/icons/receipt.svg'
 import Reload from '~/public/icons/reload.svg'
 import Requested from '~/public/icons/requested.svg'
 import ResizeExpand from '~/public/icons/resize-expand.svg'
@@ -191,6 +193,7 @@ export const ALL_ICONS = {
   okta: Okta,
   outside: Outside,
   paperclip: Paperclip,
+  'partially-filled': PartiallyFilled,
   'pause-circle-filled': PauseCircleFilled,
   'pause-circle-unfilled': PauseCircleUnfilled,
   pen: Pen,
@@ -204,6 +207,7 @@ export const ALL_ICONS = {
   push: Push,
   puzzle: Puzzle,
   'question-circle': QuestionCircle,
+  receipt: Receipt,
   reload: Reload,
   requested: Requested,
   'resize-expand': ResizeExpand,

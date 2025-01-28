@@ -27,6 +27,7 @@ import {
 } from '~/components/settings/integrations/DeleteNetsuiteIntegrationDialog'
 import NetsuiteIntegrationItemsList from '~/components/settings/integrations/NetsuiteIntegrationItemsList'
 import NetsuiteIntegrationSettings from '~/components/settings/integrations/NetsuiteIntegrationSettings'
+import { IntegrationsTabsOptionsEnum } from '~/core/constants/tabsOptions'
 import {
   INTEGRATIONS_ROUTE,
   NETSUITE_INTEGRATION_DETAILS_ROUTE,
@@ -104,18 +105,26 @@ const NetsuiteIntegrationDetails = () => {
   const netsuiteIntegration = data?.integration as NetsuiteIntegrationDetailsFragment
   const deleteDialogCallback = () => {
     if ((data?.integrations?.collection.length || 0) >= PROVIDER_CONNECTION_LIMIT) {
-      navigate(NETSUITE_INTEGRATION_ROUTE)
+      navigate(
+        generatePath(NETSUITE_INTEGRATION_ROUTE, {
+          integrationGroup: IntegrationsTabsOptionsEnum.Lago,
+        }),
+      )
     } else {
-      navigate(INTEGRATIONS_ROUTE)
+      navigate(
+        generatePath(INTEGRATIONS_ROUTE, { integrationGroup: IntegrationsTabsOptionsEnum.Lago }),
+      )
     }
   }
 
   return (
     <>
-      <PageHeader withSide>
-        <HeaderBlock>
+      <PageHeader.Wrapper withSide>
+        <PageHeader.Group>
           <ButtonLink
-            to={NETSUITE_INTEGRATION_ROUTE}
+            to={generatePath(NETSUITE_INTEGRATION_ROUTE, {
+              integrationGroup: IntegrationsTabsOptionsEnum.Lago,
+            })}
             type="button"
             buttonProps={{ variant: 'quaternary', icon: 'arrow-left' }}
           />
@@ -126,7 +135,7 @@ const NetsuiteIntegrationDetails = () => {
               {netsuiteIntegration?.name}
             </Typography>
           )}
-        </HeaderBlock>
+        </PageHeader.Group>
         <Popper
           PopperProps={{ placement: 'bottom-end' }}
           opener={
@@ -167,7 +176,7 @@ const NetsuiteIntegrationDetails = () => {
             </MenuPopper>
           )}
         </Popper>
-      </PageHeader>
+      </PageHeader.Wrapper>
       <MainInfos>
         {loading ? (
           <>
@@ -204,6 +213,7 @@ const NetsuiteIntegrationDetails = () => {
             link: generatePath(NETSUITE_INTEGRATION_DETAILS_ROUTE, {
               integrationId,
               tab: NetsuiteIntegrationDetailsTabs.Settings,
+              integrationGroup: IntegrationsTabsOptionsEnum.Lago,
             }),
             component: <NetsuiteIntegrationSettings />,
           },
@@ -212,6 +222,7 @@ const NetsuiteIntegrationDetails = () => {
             link: generatePath(NETSUITE_INTEGRATION_DETAILS_ROUTE, {
               integrationId,
               tab: NetsuiteIntegrationDetailsTabs.Items,
+              integrationGroup: IntegrationsTabsOptionsEnum.Lago,
             }),
             component: <NetsuiteIntegrationItemsList integrationId={netsuiteIntegration?.id} />,
           },
@@ -223,15 +234,6 @@ const NetsuiteIntegrationDetails = () => {
     </>
   )
 }
-
-const HeaderBlock = styled.div`
-  display: flex;
-  align-items: center;
-
-  > *:first-child {
-    margin-right: ${theme.spacing(3)};
-  }
-`
 
 const MainInfos = styled.div`
   display: flex;

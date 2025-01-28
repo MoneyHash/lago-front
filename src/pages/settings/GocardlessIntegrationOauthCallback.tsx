@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import { Avatar, ButtonLink, Chip, Icon, Skeleton, Typography } from '~/components/designSystem'
 import { GenericPlaceholder } from '~/components/GenericPlaceholder'
 import { addToast } from '~/core/apolloClient'
+import { IntegrationsTabsOptionsEnum } from '~/core/constants/tabsOptions'
 import { GOCARDLESS_INTEGRATION_DETAILS_ROUTE, INTEGRATIONS_ROUTE } from '~/core/router'
 import {
   AddGocardlessProviderDialogFragmentDoc,
@@ -59,6 +60,7 @@ const GocardlessIntegrationOauthCallback = () => {
       navigate(
         generatePath(GOCARDLESS_INTEGRATION_DETAILS_ROUTE, {
           integrationId: res.data?.addGocardlessPaymentProvider?.id as string,
+          integrationGroup: IntegrationsTabsOptionsEnum.Lago,
         }),
       )
     }
@@ -66,7 +68,9 @@ const GocardlessIntegrationOauthCallback = () => {
     if (!!code && !!accessCode && !!name) {
       createIntegration()
     } else {
-      navigate(INTEGRATIONS_ROUTE)
+      navigate(
+        generatePath(INTEGRATIONS_ROUTE, { integrationGroup: IntegrationsTabsOptionsEnum.Lago }),
+      )
 
       addToast({
         severity: 'danger',
@@ -79,11 +83,13 @@ const GocardlessIntegrationOauthCallback = () => {
 
   return (
     <>
-      <PageHeader withSide>
-        <HeaderBlock>
+      <PageHeader.Wrapper withSide>
+        <PageHeader.Group>
           <ButtonLink
             disabled={loading}
-            to={INTEGRATIONS_ROUTE}
+            to={generatePath(INTEGRATIONS_ROUTE, {
+              integrationGroup: IntegrationsTabsOptionsEnum.Lago,
+            })}
             type="button"
             buttonProps={{ variant: 'quaternary', icon: 'arrow-left' }}
           />
@@ -94,8 +100,8 @@ const GocardlessIntegrationOauthCallback = () => {
               {translate('text_634ea0ecc6147de10ddb6625')}
             </Typography>
           )}
-        </HeaderBlock>
-      </PageHeader>
+        </PageHeader.Group>
+      </PageHeader.Wrapper>
       <MainInfos>
         {loading ? (
           <>
@@ -132,21 +138,18 @@ const GocardlessIntegrationOauthCallback = () => {
           title={translate('text_62bac37900192b773560e82d')}
           subtitle={translate('text_62bac37900192b773560e82f')}
           buttonTitle={translate('text_62bac37900192b773560e831')}
-          buttonAction={() => navigate(INTEGRATIONS_ROUTE)}
+          buttonAction={() =>
+            navigate(
+              generatePath(INTEGRATIONS_ROUTE, {
+                integrationGroup: IntegrationsTabsOptionsEnum.Lago,
+              }),
+            )
+          }
         />
       )}
     </>
   )
 }
-
-const HeaderBlock = styled.div`
-  display: flex;
-  align-items: center;
-
-  > *:first-child {
-    margin-right: ${theme.spacing(3)};
-  }
-`
 
 const MainInfos = styled.div`
   display: flex;

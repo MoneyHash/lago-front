@@ -24,6 +24,7 @@ import {
 } from '~/components/settings/integrations/DeleteXeroIntegrationDialog'
 import XeroIntegrationItemsList from '~/components/settings/integrations/XeroIntegrationItemsList'
 import XeroIntegrationSettings from '~/components/settings/integrations/XeroIntegrationSettings'
+import { IntegrationsTabsOptionsEnum } from '~/core/constants/tabsOptions'
 import {
   INTEGRATIONS_ROUTE,
   XERO_INTEGRATION_DETAILS_ROUTE,
@@ -97,18 +98,26 @@ const XeroIntegrationDetails = () => {
   const xeroIntegration = data?.integration as XeroIntegrationDetailsFragment
   const deleteDialogCallback = () => {
     if ((data?.integrations?.collection.length || 0) >= PROVIDER_CONNECTION_LIMIT) {
-      navigate(XERO_INTEGRATION_ROUTE)
+      navigate(
+        generatePath(XERO_INTEGRATION_ROUTE, {
+          integrationGroup: IntegrationsTabsOptionsEnum.Lago,
+        }),
+      )
     } else {
-      navigate(INTEGRATIONS_ROUTE)
+      navigate(
+        generatePath(INTEGRATIONS_ROUTE, { integrationGroup: IntegrationsTabsOptionsEnum.Lago }),
+      )
     }
   }
 
   return (
     <>
-      <PageHeader withSide>
-        <HeaderBlock>
+      <PageHeader.Wrapper withSide>
+        <PageHeader.Group>
           <ButtonLink
-            to={XERO_INTEGRATION_ROUTE}
+            to={generatePath(XERO_INTEGRATION_ROUTE, {
+              integrationGroup: IntegrationsTabsOptionsEnum.Lago,
+            })}
             type="button"
             buttonProps={{ variant: 'quaternary', icon: 'arrow-left' }}
           />
@@ -119,7 +128,7 @@ const XeroIntegrationDetails = () => {
               {xeroIntegration?.name}
             </Typography>
           )}
-        </HeaderBlock>
+        </PageHeader.Group>
         <Popper
           PopperProps={{ placement: 'bottom-end' }}
           opener={
@@ -160,7 +169,7 @@ const XeroIntegrationDetails = () => {
             </MenuPopper>
           )}
         </Popper>
-      </PageHeader>
+      </PageHeader.Wrapper>
       <MainInfos>
         {loading ? (
           <>
@@ -197,6 +206,7 @@ const XeroIntegrationDetails = () => {
             link: generatePath(XERO_INTEGRATION_DETAILS_ROUTE, {
               integrationId,
               tab: XeroIntegrationDetailsTabs.Settings,
+              integrationGroup: IntegrationsTabsOptionsEnum.Lago,
             }),
             component: <XeroIntegrationSettings />,
           },
@@ -205,6 +215,7 @@ const XeroIntegrationDetails = () => {
             link: generatePath(XERO_INTEGRATION_DETAILS_ROUTE, {
               integrationId,
               tab: XeroIntegrationDetailsTabs.Items,
+              integrationGroup: IntegrationsTabsOptionsEnum.Lago,
             }),
             component: <XeroIntegrationItemsList integrationId={xeroIntegration?.id} />,
           },
@@ -216,15 +227,6 @@ const XeroIntegrationDetails = () => {
     </>
   )
 }
-
-const HeaderBlock = styled.div`
-  display: flex;
-  align-items: center;
-
-  > *:first-child {
-    margin-right: ${theme.spacing(3)};
-  }
-`
 
 const MainInfos = styled.div`
   display: flex;

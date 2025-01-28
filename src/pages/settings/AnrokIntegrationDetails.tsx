@@ -27,6 +27,7 @@ import {
   DeleteAnrokIntegrationDialog,
   DeleteAnrokIntegrationDialogRef,
 } from '~/components/settings/integrations/DeleteAnrokIntegrationDialog'
+import { IntegrationsTabsOptionsEnum } from '~/core/constants/tabsOptions'
 import {
   ANROK_INTEGRATION_DETAILS_ROUTE,
   ANROK_INTEGRATION_ROUTE,
@@ -104,18 +105,26 @@ const AnrokIntegrationDetails = () => {
   const anrokIntegration = data?.integration as AnrokIntegrationDetailsFragment
   const deleteDialogCallback = () => {
     if ((data?.integrations?.collection.length || 0) >= PROVIDER_CONNECTION_LIMIT) {
-      navigate(ANROK_INTEGRATION_ROUTE)
+      navigate(
+        generatePath(ANROK_INTEGRATION_ROUTE, {
+          integrationGroup: IntegrationsTabsOptionsEnum.Lago,
+        }),
+      )
     } else {
-      navigate(INTEGRATIONS_ROUTE)
+      navigate(
+        generatePath(INTEGRATIONS_ROUTE, { integrationGroup: IntegrationsTabsOptionsEnum.Lago }),
+      )
     }
   }
 
   return (
     <>
-      <PageHeader withSide>
-        <HeaderBlock>
+      <PageHeader.Wrapper withSide>
+        <PageHeader.Group>
           <ButtonLink
-            to={ANROK_INTEGRATION_ROUTE}
+            to={generatePath(ANROK_INTEGRATION_ROUTE, {
+              integrationGroup: IntegrationsTabsOptionsEnum.Lago,
+            })}
             type="button"
             buttonProps={{ variant: 'quaternary', icon: 'arrow-left' }}
           />
@@ -126,7 +135,7 @@ const AnrokIntegrationDetails = () => {
               {anrokIntegration?.name}
             </Typography>
           )}
-        </HeaderBlock>
+        </PageHeader.Group>
         <Popper
           PopperProps={{ placement: 'bottom-end' }}
           opener={
@@ -167,7 +176,7 @@ const AnrokIntegrationDetails = () => {
             </MenuPopper>
           )}
         </Popper>
-      </PageHeader>
+      </PageHeader.Wrapper>
       <MainInfos>
         {loading ? (
           <>
@@ -204,6 +213,7 @@ const AnrokIntegrationDetails = () => {
             link: generatePath(ANROK_INTEGRATION_DETAILS_ROUTE, {
               integrationId,
               tab: AnrokIntegrationDetailsTabs.Settings,
+              integrationGroup: IntegrationsTabsOptionsEnum.Lago,
             }),
             component: <AnrokIntegrationSettings />,
           },
@@ -212,6 +222,7 @@ const AnrokIntegrationDetails = () => {
             link: generatePath(ANROK_INTEGRATION_DETAILS_ROUTE, {
               integrationId,
               tab: AnrokIntegrationDetailsTabs.Items,
+              integrationGroup: IntegrationsTabsOptionsEnum.Lago,
             }),
             component: <AnrokIntegrationItemsList integrationId={anrokIntegration?.id} />,
           },
@@ -223,15 +234,6 @@ const AnrokIntegrationDetails = () => {
     </>
   )
 }
-
-const HeaderBlock = styled.div`
-  display: flex;
-  align-items: center;
-
-  > *:first-child {
-    margin-right: ${theme.spacing(3)};
-  }
-`
 
 const MainInfos = styled.div`
   display: flex;

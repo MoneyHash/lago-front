@@ -16,6 +16,7 @@ import { DeletePlanDialog, DeletePlanDialogRef } from '~/components/plans/Delete
 import PlanDetailsOverview from '~/components/plans/details/PlanDetailsOverview'
 import PlanSubscriptionList from '~/components/plans/details/PlanSubscriptionList'
 import { updateDuplicatePlanVar } from '~/core/apolloClient'
+import { PlanDetailsTabsOptionsEnum } from '~/core/constants/tabsOptions'
 import {
   CREATE_PLAN_ROUTE,
   CUSTOMER_SUBSCRIPTION_DETAILS_ROUTE,
@@ -32,11 +33,6 @@ import {
 import { useInternationalization } from '~/hooks/core/useInternationalization'
 import { usePermissions } from '~/hooks/usePermissions'
 import { MenuPopper, PageHeader, theme } from '~/styles'
-
-export enum PlanDetailsTabsOptionsEnum {
-  overview = 'overview',
-  subscriptions = 'subscriptions',
-}
 
 gql`
   query getPlanForDetails($planId: ID!) {
@@ -77,8 +73,8 @@ const PlanDetails = () => {
 
   return (
     <>
-      <PageHeader withSide>
-        <HeaderInlineBreadcrumbBlock>
+      <PageHeader.Wrapper withSide>
+        <PageHeader.Group className="overflow-hidden">
           <Button
             icon="arrow-left"
             variant="quaternary"
@@ -106,7 +102,7 @@ const PlanDetails = () => {
             </Typography>
           )}
           <Typography variant="bodyHl" color="textSecondary" noWrap></Typography>
-        </HeaderInlineBreadcrumbBlock>
+        </PageHeader.Group>
         {shouldShowActions && (
           <Popper
             PopperProps={{ placement: 'bottom-end' }}
@@ -159,7 +155,7 @@ const PlanDetails = () => {
             )}
           </Popper>
         )}
-      </PageHeader>
+      </PageHeader.Wrapper>
       <PlanBlockWrapper>
         <Avatar variant="connector" size="large">
           <Icon name="board" color="dark" size="large" />
@@ -246,15 +242,6 @@ const ContentContainer = styled.div`
 
 const TabContentWrapper = styled.div`
   max-width: 672px;
-`
-
-const HeaderInlineBreadcrumbBlock = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${theme.spacing(3)};
-
-  /* Prevent long name to not overflow in header */
-  overflow: hidden;
 `
 
 const PlanBlockWrapper = styled.div`

@@ -42,6 +42,10 @@ const SalesforceIntegrationDetails = lazyLoad(
 )
 const StripeIntegrations = lazyLoad(() => import('~/pages/settings/StripeIntegrations'))
 const StripeIntegrationDetails = lazyLoad(() => import('~/pages/settings/StripeIntegrationDetails'))
+const CashfreeIntegrations = lazyLoad(() => import('~/pages/settings/CashfreeIntegrations'))
+const CashfreeIntegrationDetails = lazyLoad(
+  () => import('~/pages/settings/CashfreeIntegrationDetails'),
+)
 const GocardlessIntegrationOauthCallback = lazyLoad(
   () => import('~/pages/settings/GocardlessIntegrationOauthCallback'),
 )
@@ -64,7 +68,8 @@ export const SETTINGS_ROUTE = '/settings'
 export const INVOICE_SETTINGS_ROUTE = `${SETTINGS_ROUTE}/invoice`
 export const TAXES_SETTINGS_ROUTE = `${SETTINGS_ROUTE}/taxes`
 export const ORGANIZATION_INFORMATIONS_ROUTE = `${SETTINGS_ROUTE}/organization-informations`
-export const INTEGRATIONS_ROUTE = `${SETTINGS_ROUTE}/integrations`
+export const ROOT_INTEGRATIONS_ROUTE = `${SETTINGS_ROUTE}/integrations`
+export const INTEGRATIONS_ROUTE = `${ROOT_INTEGRATIONS_ROUTE}/:integrationGroup`
 export const AUTHENTICATION_ROUTE = `${SETTINGS_ROUTE}/authentication`
 export const OKTA_AUTHENTICATION_ROUTE = `${AUTHENTICATION_ROUTE}/okta/:integrationId`
 export const ANROK_INTEGRATION_ROUTE = `${INTEGRATIONS_ROUTE}/anrok`
@@ -81,8 +86,10 @@ export const SALESFORCE_INTEGRATION_ROUTE = `${INTEGRATIONS_ROUTE}/salesforce`
 export const SALESFORCE_INTEGRATION_DETAILS_ROUTE = `${INTEGRATIONS_ROUTE}/salesforce/:integrationId`
 export const STRIPE_INTEGRATION_ROUTE = `${INTEGRATIONS_ROUTE}/stripe`
 export const STRIPE_INTEGRATION_DETAILS_ROUTE = `${INTEGRATIONS_ROUTE}/stripe/:integrationId`
+export const CASHFREE_INTEGRATION_ROUTE = `${INTEGRATIONS_ROUTE}/cashfree`
+export const CASHFREE_INTEGRATION_DETAILS_ROUTE = `${INTEGRATIONS_ROUTE}/cashfree/:integrationId`
 export const GOCARDLESS_INTEGRATION_ROUTE = `${INTEGRATIONS_ROUTE}/gocardless`
-export const GOCARDLESS_INTEGRATION_OAUTH_CALLBACK_ROUTE = `${INTEGRATIONS_ROUTE}/gocardless/callback`
+export const GOCARDLESS_INTEGRATION_OAUTH_CALLBACK_ROUTE = `${ROOT_INTEGRATIONS_ROUTE}/gocardless/callback`
 export const GOCARDLESS_INTEGRATION_DETAILS_ROUTE = `${INTEGRATIONS_ROUTE}/gocardless/:integrationId`
 export const TAX_MANAGEMENT_INTEGRATION_ROUTE = `${INTEGRATIONS_ROUTE}/lago-tax-management`
 export const MEMBERS_ROUTE = `${SETTINGS_ROUTE}/members`
@@ -244,6 +251,18 @@ export const settingRoutes: CustomRouteObject[] = [
         permissions: ['organizationIntegrationsView'],
       },
       {
+        path: CASHFREE_INTEGRATION_ROUTE,
+        private: true,
+        element: <CashfreeIntegrations />,
+        permissions: ['organizationIntegrationsView'],
+      },
+      {
+        path: CASHFREE_INTEGRATION_DETAILS_ROUTE,
+        private: true,
+        element: <CashfreeIntegrationDetails />,
+        permissions: ['organizationIntegrationsView'],
+      },
+      {
         path: GOCARDLESS_INTEGRATION_ROUTE,
         private: true,
         element: <GocardlessIntegrations />,
@@ -297,7 +316,6 @@ export const settingRoutes: CustomRouteObject[] = [
     path: [CREATE_INVOICE_CUSTOM_SECTION, EDIT_INVOICE_CUSTOM_SECTION],
     private: true,
     element: <CreateInvoiceCustomSection />,
-    // TODO: Add permissions
-    permissions: ['organizationInvoicesUpdate'],
+    permissions: ['invoiceCustomSectionsCreate', 'invoiceCustomSectionsUpdate'],
   },
 ]

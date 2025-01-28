@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 import { FC, useRef } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { generatePath, useNavigate, useParams } from 'react-router-dom'
 
 import {
   Avatar,
@@ -21,6 +21,7 @@ import {
   DeleteHubspotIntegrationDialog,
   DeleteHubspotIntegrationDialogRef,
 } from '~/components/settings/integrations/DeleteHubspotIntegrationDialog'
+import { IntegrationsTabsOptionsEnum } from '~/core/constants/tabsOptions'
 import { HUBSPOT_INTEGRATION_ROUTE, INTEGRATIONS_ROUTE } from '~/core/router'
 import {
   DeleteHubspotIntegrationDialogFragmentDoc,
@@ -95,18 +96,26 @@ const HubspotIntegrationDetails = () => {
     const integrations = data?.integrations?.collection || []
 
     if (integrations.length >= PROVIDER_CONNECTION_LIMIT) {
-      navigate(HUBSPOT_INTEGRATION_ROUTE)
+      navigate(
+        generatePath(HUBSPOT_INTEGRATION_ROUTE, {
+          integrationGroup: IntegrationsTabsOptionsEnum.Lago,
+        }),
+      )
     } else {
-      navigate(INTEGRATIONS_ROUTE)
+      navigate(
+        generatePath(INTEGRATIONS_ROUTE, { integrationGroup: IntegrationsTabsOptionsEnum.Lago }),
+      )
     }
   }
 
   return (
     <>
-      <PageHeader withSide>
-        <div className="flex items-center gap-3">
+      <PageHeader.Wrapper withSide>
+        <PageHeader.Group>
           <ButtonLink
-            to={HUBSPOT_INTEGRATION_ROUTE}
+            to={generatePath(HUBSPOT_INTEGRATION_ROUTE, {
+              integrationGroup: IntegrationsTabsOptionsEnum.Lago,
+            })}
             type="button"
             buttonProps={{ variant: 'quaternary', icon: 'arrow-left' }}
           />
@@ -117,7 +126,7 @@ const HubspotIntegrationDetails = () => {
               {hubspotIntegration?.name}
             </Typography>
           )}
-        </div>
+        </PageHeader.Group>
         <Popper
           PopperProps={{ placement: 'bottom-end' }}
           opener={
@@ -160,7 +169,7 @@ const HubspotIntegrationDetails = () => {
             </MenuPopper>
           )}
         </Popper>
-      </PageHeader>
+      </PageHeader.Wrapper>
       <div className="container">
         <section className="flex items-center py-8">
           {loading ? (

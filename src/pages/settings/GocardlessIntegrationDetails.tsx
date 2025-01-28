@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 import { Stack } from '@mui/material'
 import { useRef } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { generatePath, useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
 import {
@@ -29,6 +29,7 @@ import {
 } from '~/components/settings/integrations/DeleteGocardlessIntegrationDialog'
 import { addToast, envGlobalVar } from '~/core/apolloClient'
 import { buildGocardlessAuthUrl } from '~/core/constants/externalUrls'
+import { IntegrationsTabsOptionsEnum } from '~/core/constants/tabsOptions'
 import { GOCARDLESS_INTEGRATION_ROUTE, INTEGRATIONS_ROUTE } from '~/core/router'
 import { copyToClipboard } from '~/core/utils/copyToClipboard'
 import {
@@ -98,9 +99,15 @@ const GocardlessIntegrationDetails = () => {
   const isConnectionEstablished = !!gocardlessPaymentProvider?.webhookSecret
   const deleteDialogCallback = () => {
     if ((data?.paymentProviders?.collection.length || 0) >= PROVIDER_CONNECTION_LIMIT) {
-      navigate(GOCARDLESS_INTEGRATION_ROUTE)
+      navigate(
+        generatePath(GOCARDLESS_INTEGRATION_ROUTE, {
+          integrationGroup: IntegrationsTabsOptionsEnum.Lago,
+        }),
+      )
     } else {
-      navigate(INTEGRATIONS_ROUTE)
+      navigate(
+        generatePath(INTEGRATIONS_ROUTE, { integrationGroup: IntegrationsTabsOptionsEnum.Lago }),
+      )
     }
   }
 
@@ -109,10 +116,12 @@ const GocardlessIntegrationDetails = () => {
 
   return (
     <div>
-      <PageHeader withSide>
-        <HeaderBlock>
+      <PageHeader.Wrapper withSide>
+        <PageHeader.Group>
           <ButtonLink
-            to={GOCARDLESS_INTEGRATION_ROUTE}
+            to={generatePath(GOCARDLESS_INTEGRATION_ROUTE, {
+              integrationGroup: IntegrationsTabsOptionsEnum.Lago,
+            })}
             type="button"
             buttonProps={{ variant: 'quaternary', icon: 'arrow-left' }}
           />
@@ -123,7 +132,7 @@ const GocardlessIntegrationDetails = () => {
               {gocardlessPaymentProvider?.name}
             </Typography>
           )}
-        </HeaderBlock>
+        </PageHeader.Group>
         {(canEditIntegration || canDeleteIntegration) && (
           <Popper
             PopperProps={{ placement: 'bottom-end' }}
@@ -201,7 +210,7 @@ const GocardlessIntegrationDetails = () => {
             )}
           </Popper>
         )}
-      </PageHeader>
+      </PageHeader.Wrapper>
       <MainInfos>
         {loading ? (
           <>
@@ -359,10 +368,10 @@ const GocardlessIntegrationDetails = () => {
           </InlineTitle>
 
           {loading ? (
-            <HeaderBlock>
+            <div className="flex items-center gap-3">
               <Skeleton variant="connectorAvatar" size="big" className="mr-4" />
               <Skeleton variant="text" className="w-60" />
-            </HeaderBlock>
+            </div>
           ) : (
             <>
               {!gocardlessPaymentProvider?.successRedirectUrl ? (
@@ -457,15 +466,6 @@ const GocardlessIntegrationDetails = () => {
     </div>
   )
 }
-
-const HeaderBlock = styled.div`
-  display: flex;
-  align-items: center;
-
-  > *:first-child {
-    margin-right: ${theme.spacing(3)};
-  }
-`
 
 const MainInfos = styled.div`
   display: flex;

@@ -1,7 +1,6 @@
 import { gql } from '@apollo/client'
 import { useFormik } from 'formik'
 import { forwardRef, useImperativeHandle, useMemo, useRef, useState } from 'react'
-import styled from 'styled-components'
 import { object, string } from 'yup'
 
 import { Button, Dialog, DialogRef, Typography } from '~/components/designSystem'
@@ -10,23 +9,30 @@ import { addToast, hasDefinedGQLError } from '~/core/apolloClient'
 import { ADYEN_SUCCESS_LINK_SPEC_URL } from '~/core/constants/externalUrls'
 import {
   AdyenForCreateAndEditSuccessRedirectUrlFragment,
+  CashfreeForCreateAndEditSuccessRedirectUrlFragment,
   GocardlessForCreateAndEditSuccessRedirectUrlFragment,
   MoneyhashForCreateAndEditSuccessRedirectUrlFragment,
   StripeForCreateAndEditSuccessRedirectUrlFragment,
   UpdateAdyenPaymentProviderInput,
+  UpdateCashfreePaymentProviderInput,
   UpdateGocardlessPaymentProviderInput,
   UpdateMoneyhashPaymentProviderInput,
   UpdateStripePaymentProviderInput,
   useUpdateAdyenPaymentProviderMutation,
+  useUpdateCashfreePaymentProviderMutation,
   useUpdateGocardlessPaymentProviderMutation,
   useUpdateMoneyhashPaymentProviderMutation,
   useUpdateStripePaymentProviderMutation,
 } from '~/generated/graphql'
 import { useInternationalization } from '~/hooks/core/useInternationalization'
-import { theme } from '~/styles'
 
 gql`
   fragment AdyenForCreateAndEditSuccessRedirectUrl on AdyenProvider {
+    id
+    successRedirectUrl
+  }
+
+  fragment CashfreeForCreateAndEditSuccessRedirectUrl on CashfreeProvider {
     id
     successRedirectUrl
   }
@@ -48,6 +54,13 @@ gql`
 
   mutation updateAdyenPaymentProvider($input: UpdateAdyenPaymentProviderInput!) {
     updateAdyenPaymentProvider(input: $input) {
+      id
+      successRedirectUrl
+    }
+  }
+
+  mutation updateCashfreePaymentProvider($input: UpdateCashfreePaymentProviderInput!) {
+    updateCashfreePaymentProvider(input: $input) {
       id
       successRedirectUrl
     }
@@ -86,17 +99,19 @@ const AddEditDeleteSuccessRedirectUrlDialogProviderType = {
   Stripe: 'Stripe',
   GoCardless: 'GoCardless',
   Moneyhash: 'Moneyhash',
+  Cashfree: 'Cashfree',
 } as const
 
 type LocalProviderType = {
   mode: keyof typeof AddEditDeleteSuccessRedirectUrlDialogMode
   type: keyof typeof AddEditDeleteSuccessRedirectUrlDialogProviderType
   provider?:
-  | AdyenForCreateAndEditSuccessRedirectUrlFragment
-  | GocardlessForCreateAndEditSuccessRedirectUrlFragment
-  | StripeForCreateAndEditSuccessRedirectUrlFragment
-  | MoneyhashForCreateAndEditSuccessRedirectUrlFragment
-  | null
+    | AdyenForCreateAndEditSuccessRedirectUrlFragment
+    | CashfreeForCreateAndEditSuccessRedirectUrlFragment
+    | GocardlessForCreateAndEditSuccessRedirectUrlFragment
+    | StripeForCreateAndEditSuccessRedirectUrlFragment
+    | MoneyhashForCreateAndEditSuccessRedirectUrlFragment
+    | null
 }
 
 export interface AddEditDeleteSuccessRedirectUrlDialogRef {
@@ -119,6 +134,17 @@ export const AddEditDeleteSuccessRedirectUrlDialog =
     const [updateAdyenProvider] = useUpdateAdyenPaymentProviderMutation({
       onCompleted(data) {
         if (data && data.updateAdyenPaymentProvider) {
+          addToast({
+            message: successToastMessage,
+            severity: 'success',
+          })
+        }
+      },
+    })
+
+    const [updateCashfreeProvider] = useUpdateCashfreePaymentProviderMutation({
+      onCompleted(data) {
+        if (data && data.updateCashfreePaymentProvider) {
           addToast({
             message: successToastMessage,
             severity: 'success',
@@ -162,6 +188,7 @@ export const AddEditDeleteSuccessRedirectUrlDialog =
 
     const formikProps = useFormik<
       | UpdateAdyenPaymentProviderInput
+      | UpdateCashfreePaymentProviderInput
       | UpdateGocardlessPaymentProviderInput
       | UpdateStripePaymentProviderInput
       | UpdateMoneyhashPaymentProviderInput
@@ -181,6 +208,7 @@ export const AddEditDeleteSuccessRedirectUrlDialog =
           [AddEditDeleteSuccessRedirectUrlDialogProviderType.Stripe]: updateStripeProvider,
           [AddEditDeleteSuccessRedirectUrlDialogProviderType.GoCardless]: updateGocardlessProvider,
           [AddEditDeleteSuccessRedirectUrlDialogProviderType.Moneyhash]: updateMoneyhashProvider,
+          [AddEditDeleteSuccessRedirectUrlDialogProviderType.Cashfree]: updateCashfreeProvider,
         }
 
         const method = methodLoojup[localData?.type as LocalProviderType['type']]
@@ -285,35 +313,26 @@ export const AddEditDeleteSuccessRedirectUrlDialog =
         )}
       >
         {localData?.mode !== AddEditDeleteSuccessRedirectUrlDialogMode.Delete && (
-          <Content>
-            <TextInputField
-              // eslint-disable-next-line jsx-a11y/no-autofocus
-              autoFocus
-              error={!!formikProps.errors.successRedirectUrl}
-              name="successRedirectUrl"
-              label={translate('text_65367cb78324b77fcb6af1c6')}
-              placeholder={translate('text_65367cb78324b77fcb6af1d0')}
-              helperText={
-                <Typography
-                  variant="caption"
-                  color={!!formikProps.errors.successRedirectUrl ? 'danger600' : 'grey600'}
-                  html={helperText}
-                />
-              }
-              formikProps={formikProps}
-            />
-          </Content>
+          <TextInputField
+            // eslint-disable-next-line jsx-a11y/no-autofocus
+            autoFocus
+            className="mb-8"
+            error={!!formikProps.errors.successRedirectUrl}
+            name="successRedirectUrl"
+            label={translate('text_65367cb78324b77fcb6af1c6')}
+            placeholder={translate('text_65367cb78324b77fcb6af1d0')}
+            helperText={
+              <Typography
+                variant="caption"
+                color={!!formikProps.errors.successRedirectUrl ? 'danger600' : 'grey600'}
+                html={helperText}
+              />
+            }
+            formikProps={formikProps}
+          />
         )}
       </Dialog>
     )
   })
-
-const Content = styled.div`
-  margin-bottom: ${theme.spacing(8)};
-
-  > *:not(:last-child) {
-    margin-bottom: ${theme.spacing(6)};
-  }
-`
 
 AddEditDeleteSuccessRedirectUrlDialog.displayName = 'forwardRef'

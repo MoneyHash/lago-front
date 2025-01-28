@@ -20,6 +20,7 @@ import {
   DeleteXeroIntegrationDialog,
   DeleteXeroIntegrationDialogRef,
 } from '~/components/settings/integrations/DeleteXeroIntegrationDialog'
+import { IntegrationsTabsOptionsEnum } from '~/core/constants/tabsOptions'
 import { INTEGRATIONS_ROUTE, XERO_INTEGRATION_DETAILS_ROUTE } from '~/core/router'
 import {
   DeleteXeroIntegrationDialogFragmentDoc,
@@ -77,14 +78,23 @@ const XeroIntegrations = () => {
   })
   const connections = data?.integrations?.collection as XeroIntegrationsFragment[] | undefined
   const deleteDialogCallback =
-    connections && connections?.length === 1 ? () => navigate(INTEGRATIONS_ROUTE) : undefined
+    connections && connections?.length === 1
+      ? () =>
+          navigate(
+            generatePath(INTEGRATIONS_ROUTE, {
+              integrationGroup: IntegrationsTabsOptionsEnum.Lago,
+            }),
+          )
+      : undefined
 
   return (
     <>
-      <PageHeader withSide>
-        <HeaderBlock>
+      <PageHeader.Wrapper withSide>
+        <PageHeader.Group>
           <ButtonLink
-            to={INTEGRATIONS_ROUTE}
+            to={generatePath(INTEGRATIONS_ROUTE, {
+              integrationGroup: IntegrationsTabsOptionsEnum.Lago,
+            })}
             type="button"
             buttonProps={{ variant: 'quaternary', icon: 'arrow-left' }}
           />
@@ -95,7 +105,7 @@ const XeroIntegrations = () => {
               {translate('text_6672ebb8b1b50be550eccaf8')}
             </Typography>
           )}
-        </HeaderBlock>
+        </PageHeader.Group>
         <Button
           variant="primary"
           onClick={() => {
@@ -104,7 +114,7 @@ const XeroIntegrations = () => {
         >
           {translate('text_65846763e6140b469140e235')}
         </Button>
-      </PageHeader>
+      </PageHeader.Wrapper>
       <MainInfos>
         {loading ? (
           <>
@@ -157,6 +167,7 @@ const XeroIntegrations = () => {
                         to={generatePath(XERO_INTEGRATION_DETAILS_ROUTE, {
                           integrationId: connection.id,
                           tab: XeroIntegrationDetailsTabs.Settings,
+                          integrationGroup: IntegrationsTabsOptionsEnum.Lago,
                         })}
                       >
                         <Stack direction="row" alignItems="center" spacing={3}>
@@ -239,15 +250,6 @@ const XeroIntegrations = () => {
     </>
   )
 }
-
-const HeaderBlock = styled.div`
-  display: flex;
-  align-items: center;
-
-  > *:first-child {
-    margin-right: ${theme.spacing(3)};
-  }
-`
 
 const MainInfos = styled.div`
   display: flex;

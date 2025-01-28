@@ -2,15 +2,14 @@ import { Typography } from '@mui/material'
 import { useFormik } from 'formik'
 import { useEffect } from 'react'
 
-import { AmountFilterInterval } from '~/components/designSystem/Filters/types'
 import {
   AMOUNT_INTERVALS_TRANSLATION_MAP,
+  AmountFilterInterval,
+  FiltersFormValues,
   parseAmountValue,
-} from '~/components/designSystem/Filters/utils'
+} from '~/components/designSystem/Filters'
 import { ComboBoxField, TextInputField } from '~/components/form'
 import { useInternationalization } from '~/hooks/core/useInternationalization'
-
-import { FiltersFormValues } from '../FiltersPanelPoper'
 
 type FiltersItemAmountProps = {
   value: FiltersFormValues['filters'][0]['value']
@@ -71,6 +70,7 @@ export const FiltersItemAmount = ({ value = '', setFilterValue }: FiltersItemAmo
         }))}
         placeholder={translate('text_66ab42d4ece7e6b7078993b1')}
         formikProps={formikProps}
+        disableClearable={true}
       />
 
       {showFrom && (

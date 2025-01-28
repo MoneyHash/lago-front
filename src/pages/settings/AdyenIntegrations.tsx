@@ -27,6 +27,7 @@ import {
   DeleteAdyenIntegrationDialog,
   DeleteAdyenIntegrationDialogRef,
 } from '~/components/settings/integrations/DeleteAdyenIntegrationDialog'
+import { IntegrationsTabsOptionsEnum } from '~/core/constants/tabsOptions'
 import { ADYEN_INTEGRATION_DETAILS_ROUTE, INTEGRATIONS_ROUTE } from '~/core/router'
 import {
   AddAdyenProviderDialogFragmentDoc,
@@ -86,7 +87,14 @@ const AdyenIntegrations = () => {
   })
   const connections = data?.paymentProviders?.collection as AdyenProvider[] | undefined
   const deleteDialogCallback =
-    connections && connections.length === 1 ? () => navigate(INTEGRATIONS_ROUTE) : undefined
+    connections && connections.length === 1
+      ? () =>
+          navigate(
+            generatePath(INTEGRATIONS_ROUTE, {
+              integrationGroup: IntegrationsTabsOptionsEnum.Lago,
+            }),
+          )
+      : undefined
 
   const canCreateIntegration = hasPermissions(['organizationIntegrationsCreate'])
   const canEditIntegration = hasPermissions(['organizationIntegrationsUpdate'])
@@ -94,10 +102,12 @@ const AdyenIntegrations = () => {
 
   return (
     <>
-      <PageHeader withSide>
-        <HeaderBlock>
+      <PageHeader.Wrapper withSide>
+        <PageHeader.Group>
           <ButtonLink
-            to={INTEGRATIONS_ROUTE}
+            to={generatePath(INTEGRATIONS_ROUTE, {
+              integrationGroup: IntegrationsTabsOptionsEnum.Lago,
+            })}
             type="button"
             buttonProps={{ variant: 'quaternary', icon: 'arrow-left' }}
           />
@@ -108,7 +118,7 @@ const AdyenIntegrations = () => {
               {translate('text_645d071272418a14c1c76a6d')}
             </Typography>
           )}
-        </HeaderBlock>
+        </PageHeader.Group>
 
         {canCreateIntegration && (
           <Button
@@ -120,7 +130,8 @@ const AdyenIntegrations = () => {
             {translate('text_65846763e6140b469140e235')}
           </Button>
         )}
-      </PageHeader>
+      </PageHeader.Wrapper>
+
       <MainInfos>
         {loading ? (
           <>
@@ -172,6 +183,7 @@ const AdyenIntegrations = () => {
                         tabIndex={0}
                         to={generatePath(ADYEN_INTEGRATION_DETAILS_ROUTE, {
                           integrationId: connection.id,
+                          integrationGroup: IntegrationsTabsOptionsEnum.Lago,
                         })}
                       >
                         <Stack direction="row" alignItems="center" spacing={3}>
@@ -262,15 +274,6 @@ const AdyenIntegrations = () => {
     </>
   )
 }
-
-const HeaderBlock = styled.div`
-  display: flex;
-  align-items: center;
-
-  > *:first-child {
-    margin-right: ${theme.spacing(3)};
-  }
-`
 
 const MainInfos = styled.div`
   display: flex;

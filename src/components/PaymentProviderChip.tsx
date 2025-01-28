@@ -3,6 +3,7 @@ import { FC } from 'react'
 import { ProviderTypeEnum } from '~/generated/graphql'
 import { useInternationalization } from '~/hooks/core/useInternationalization'
 import Adyen from '~/public/images/adyen.svg'
+import Cashfree from '~/public/images/cashfree.svg'
 import Gocardless from '~/public/images/gocardless.svg'
 import Moneyhash from '~/public/images/moneyhash.svg'
 import Stripe from '~/public/images/stripe.svg'
@@ -31,6 +32,10 @@ const providers: Record<ProviderTypeEnum, { icon: JSX.Element; label: string }> 
   [ProviderTypeEnum.Moneyhash]: {
     icon: <Moneyhash />,
     label: 'text_1733427981129n3wxjui0bex',
+  },
+  [ProviderTypeEnum.Cashfree]: {
+    icon: <Cashfree />,
+    label: 'text_17367626793434wkg1rk0114',
   },
 }
 

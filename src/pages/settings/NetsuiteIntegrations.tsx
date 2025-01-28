@@ -23,6 +23,7 @@ import {
   DeleteNetsuiteIntegrationDialog,
   DeleteNetsuiteIntegrationDialogRef,
 } from '~/components/settings/integrations/DeleteNetsuiteIntegrationDialog'
+import { IntegrationsTabsOptionsEnum } from '~/core/constants/tabsOptions'
 import { INTEGRATIONS_ROUTE, NETSUITE_INTEGRATION_DETAILS_ROUTE } from '~/core/router'
 import {
   DeleteNetsuiteIntegrationDialogFragmentDoc,
@@ -80,14 +81,23 @@ const NetsuiteIntegrations = () => {
   })
   const connections = data?.integrations?.collection as NetsuiteIntegrationsFragment[] | undefined
   const deleteDialogCallback =
-    connections && connections?.length === 1 ? () => navigate(INTEGRATIONS_ROUTE) : undefined
+    connections && connections?.length === 1
+      ? () =>
+          navigate(
+            generatePath(INTEGRATIONS_ROUTE, {
+              integrationGroup: IntegrationsTabsOptionsEnum.Lago,
+            }),
+          )
+      : undefined
 
   return (
     <>
-      <PageHeader withSide>
-        <HeaderBlock>
+      <PageHeader.Wrapper withSide>
+        <PageHeader.Group>
           <ButtonLink
-            to={INTEGRATIONS_ROUTE}
+            to={generatePath(INTEGRATIONS_ROUTE, {
+              integrationGroup: IntegrationsTabsOptionsEnum.Lago,
+            })}
             type="button"
             buttonProps={{ variant: 'quaternary', icon: 'arrow-left' }}
           />
@@ -98,7 +108,7 @@ const NetsuiteIntegrations = () => {
               {translate('text_661ff6e56ef7e1b7c542b239')}
             </Typography>
           )}
-        </HeaderBlock>
+        </PageHeader.Group>
         <Button
           variant="primary"
           onClick={() => {
@@ -107,7 +117,7 @@ const NetsuiteIntegrations = () => {
         >
           {translate('text_65846763e6140b469140e235')}
         </Button>
-      </PageHeader>
+      </PageHeader.Wrapper>
       <MainInfos>
         {loading ? (
           <>
@@ -160,6 +170,7 @@ const NetsuiteIntegrations = () => {
                         to={generatePath(NETSUITE_INTEGRATION_DETAILS_ROUTE, {
                           integrationId: connection.id,
                           tab: NetsuiteIntegrationDetailsTabs.Settings,
+                          integrationGroup: IntegrationsTabsOptionsEnum.Lago,
                         })}
                       >
                         <Stack direction="row" alignItems="center" spacing={3}>
@@ -242,15 +253,6 @@ const NetsuiteIntegrations = () => {
     </>
   )
 }
-
-const HeaderBlock = styled.div`
-  display: flex;
-  align-items: center;
-
-  > *:first-child {
-    margin-right: ${theme.spacing(3)};
-  }
-`
 
 const MainInfos = styled.div`
   display: flex;
