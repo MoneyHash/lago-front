@@ -555,32 +555,7 @@ const Integrations = () => {
                             addXeroDialogRef.current?.openDialog()
                           }
                         }}
-                        />
-                    <Selector
-                      title={translate('text_1733427981129n3wxjui0bex')}
-                      subtitle={translate('text_634ea0ecc6147de10ddb6631')}
-                      icon={
-                        <Avatar size="big" variant="connector-full">
-                          <Moneyhash />
-                        </Avatar>
-                      }
-                      endIcon={
-                        hasMoneyhashIntegration ? (
-                          <Chip label={translate('text_62b1edddbf5f461ab97127ad')} />
-                        ) : undefined
-                      }
-                      onClick={() => {
-                        if (hasMoneyhashIntegration) {
-                          navigate(MONEYHASH_INTEGRATION_ROUTE)
-                        } else {
-                          const element = document.activeElement as HTMLElement
-
-                          element.blur && element.blur()
-                          addMoneyhashDialogRef.current?.openDialog()
-                        }
-                      }}
-                      fullWidth
-                    />
+                      />
                     </SettingsListItem>
                   )}
                 </SettingsListWrapper>
@@ -636,6 +611,31 @@ const Integrations = () => {
                             addCashfreeDialogRef.current?.openDialog()
                           }
                         }}
+                      />
+                      <Selector
+                        title={translate('text_1733427981129n3wxjui0bex')}
+                        subtitle={translate('text_634ea0ecc6147de10ddb6631')}
+                        icon={
+                          <Avatar size="big" variant="connector-full">
+                            <Moneyhash />
+                          </Avatar>
+                        }
+                        endIcon={
+                          hasMoneyhashIntegration ? (
+                            <Chip label={translate('text_62b1edddbf5f461ab97127ad')} />
+                          ) : undefined
+                        }
+                        onClick={() => {
+                          if (hasMoneyhashIntegration) {
+                            navigate(MONEYHASH_INTEGRATION_ROUTE)
+                          } else {
+                            const element = document.activeElement as HTMLElement
+
+                            element.blur && element.blur()
+                            addMoneyhashDialogRef.current?.openDialog()
+                          }
+                        }}
+                        fullWidth
                       />
                     </SettingsListItem>
                   )}

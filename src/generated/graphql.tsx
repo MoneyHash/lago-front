@@ -3310,9 +3310,7 @@ export type MoneyhashProvider = {
   failedRedirectUrl?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
-  pendingRedirectUrl?: Maybe<Scalars['String']['output']>;
-  successRedirectUrl?: Maybe<Scalars['String']['output']>;
-  webhookRedirectUrl?: Maybe<Scalars['String']['output']>;
+  flowId: Scalars['String']['output'];
 };
 
 export type Mrr = {
@@ -14911,12 +14909,6 @@ export const PaymentProvidersListForCustomerCreateEditExternalAppsAccordionDocum
     query paymentProvidersListForCustomerCreateEditExternalAppsAccordion($limit: Int) {
   paymentProviders(limit: $limit) {
     collection {
-      ... on CashfreeProvider {
-        __typename
-        id
-        name
-        code
-      }
       ... on StripeProvider {
         __typename
         id
@@ -14936,6 +14928,12 @@ export const PaymentProvidersListForCustomerCreateEditExternalAppsAccordionDocum
         code
       }
       ... on MoneyhashProvider {
+        __typename
+        id
+        name
+        code
+      }
+      ... on CashfreeProvider {
         __typename
         id
         name

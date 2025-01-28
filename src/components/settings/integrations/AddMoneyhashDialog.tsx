@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 import { Stack } from '@mui/material'
 import { useFormik } from 'formik'
-import { forwardRef, useImperativeHandle, useRef, useState } from 'react'
+import { forwardRef, RefObject, useImperativeHandle, useRef, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { generatePath } from 'react-router-dom'
 import styled from 'styled-components'
@@ -10,6 +10,7 @@ import { object, string } from 'yup'
 import { Button, Dialog, DialogRef } from '~/components/designSystem'
 import { TextInputField } from '~/components/form'
 import { addToast } from '~/core/apolloClient'
+import { IntegrationsTabsOptionsEnum } from '~/core/constants/tabsOptions'
 import { MONEYHASH_INTEGRATION_DETAILS_ROUTE } from '~/core/router'
 import {
   AddMoneyhashPaymentProviderInput,
@@ -90,6 +91,7 @@ export const AddMoneyhashDialog = forwardRef<AddMoneyhashDialogRef>((_, ref) => 
         navigate(
           generatePath(MONEYHASH_INTEGRATION_DETAILS_ROUTE, {
             integrationId: addMoneyhashPaymentProvider.id,
+            integrationGroup: IntegrationsTabsOptionsEnum.Community,
           }),
         )
         addToast({
@@ -126,14 +128,7 @@ export const AddMoneyhashDialog = forwardRef<AddMoneyhashDialogRef>((_, ref) => 
       apiKey: string().required(''),
       flowId: string().required(''),
     }),
-    onSubmit: async (
-      {
-        apiKey,
-        flowId,
-        ...values
-      },
-      formikBag,
-    ) => {
+    onSubmit: async ({ apiKey, flowId, ...values }, formikBag) => {
       const res = await getMoneyhashProviderByCode({
         context: { silentErrorCodes: [LagoApiError.NotFound] },
         variables: {

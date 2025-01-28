@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 import { useRef } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { generatePath, useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
 import {
@@ -25,6 +25,7 @@ import {
   DeleteMoneyhashIntegrationDialog,
   DeleteMoneyhashIntegrationDialogRef,
 } from '~/components/settings/integrations/DeleteMoneyhashIntegrationDialog'
+import { IntegrationsTabsOptionsEnum } from '~/core/constants/tabsOptions'
 import { INTEGRATIONS_ROUTE, MONEYHASH_INTEGRATION_ROUTE } from '~/core/router'
 import {
   AddMoneyhashProviderDialogFragmentDoc,
@@ -91,9 +92,17 @@ const MoneyhashIntegrationDetails = () => {
   const moneyhashPaymentProvider = data?.paymentProvider as MoneyhashIntegrationDetailsFragment
   const deleteDialogCallback = () => {
     if ((data?.paymentProviders?.collection.length || 0) >= PROVIDER_CONNECTION_LIMIT) {
-      navigate(MONEYHASH_INTEGRATION_ROUTE)
+      navigate(
+        generatePath(MONEYHASH_INTEGRATION_ROUTE, {
+          integrationGroup: IntegrationsTabsOptionsEnum.Community,
+        }),
+      )
     } else {
-      navigate(INTEGRATIONS_ROUTE)
+      navigate(
+        generatePath(INTEGRATIONS_ROUTE, {
+          integrationGroup: IntegrationsTabsOptionsEnum.Community,
+        }),
+      )
     }
   }
   const canEditIntegration = hasPermissions(['organizationIntegrationsUpdate'])
@@ -101,21 +110,21 @@ const MoneyhashIntegrationDetails = () => {
 
   return (
     <>
-      <PageHeader $withSide>
-        <HeaderBlock>
+      <PageHeader.Wrapper withSide>
+        <PageHeader.Group>
           <ButtonLink
             to={MONEYHASH_INTEGRATION_ROUTE}
             type="button"
             buttonProps={{ variant: 'quaternary', icon: 'arrow-left' }}
           />
           {loading ? (
-            <Skeleton variant="text" width={120} />
+            <Skeleton variant="text" className="w-30" />
           ) : (
             <Typography variant="bodyHl" color="textSecondary">
               {moneyhashPaymentProvider?.name}
             </Typography>
           )}
-        </HeaderBlock>
+        </PageHeader.Group>
         {(canEditIntegration || canDeleteIntegration) && (
           <Popper
             PopperProps={{ placement: 'bottom-end' }}
@@ -162,14 +171,14 @@ const MoneyhashIntegrationDetails = () => {
             )}
           </Popper>
         )}
-      </PageHeader>
-      <MainInfos>
+      </PageHeader.Wrapper>
+      <div className="flex items-center px-4 py-8 md:px-12">
         {loading ? (
           <>
-            <Skeleton variant="connectorAvatar" size="large" marginRight="16px" />
+            <Skeleton className="mr-4" variant="connectorAvatar" size="large" />
             <div>
-              <Skeleton variant="text" width={200} marginBottom="22px" />
-              <Skeleton variant="text" width={128} />
+              <Skeleton className="mb-5 w-50" variant="text" />
+              <Skeleton className="w-32" variant="text" />
             </div>
           </>
         ) : (
@@ -189,7 +198,7 @@ const MoneyhashIntegrationDetails = () => {
             </div>
           </>
         )}
-      </MainInfos>
+      </div>
       <Settings>
         <section>
           <InlineTitle>
@@ -217,8 +226,8 @@ const MoneyhashIntegrationDetails = () => {
               <>
                 {[0, 1, 2].map((i) => (
                   <ApiKeyItem key={`item-skeleton-item-${i}`}>
-                    <Skeleton variant="connectorAvatar" size="big" marginRight="16px" />
-                    <Skeleton variant="text" width={240} />
+                    <Skeleton variant="connectorAvatar" size="big" />
+                    <Skeleton variant="text" className="w-60" />
                   </ApiKeyItem>
                 ))}
               </>
@@ -287,23 +296,6 @@ const MoneyhashIntegrationDetails = () => {
     </>
   )
 }
-
-const HeaderBlock = styled.div`
-  display: flex;
-  align-items: center;
-  > *:first-child {
-    margin-right: ${theme.spacing(3)};
-  }
-`
-
-const MainInfos = styled.div`
-  display: flex;
-  align-items: center;
-  padding: ${theme.spacing(8)} ${theme.spacing(12)};
-  ${theme.breakpoints.down('md')} {
-    padding: ${theme.spacing(8)} ${theme.spacing(4)};
-  }
-`
 
 const Settings = styled.div`
   display: flex;

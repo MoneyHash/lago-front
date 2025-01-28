@@ -27,11 +27,13 @@ import {
   DeleteMoneyhashIntegrationDialog,
   DeleteMoneyhashIntegrationDialogRef,
 } from '~/components/settings/integrations/DeleteMoneyhashIntegrationDialog'
+import { IntegrationsTabsOptionsEnum } from '~/core/constants/tabsOptions'
 import { INTEGRATIONS_ROUTE, MONEYHASH_INTEGRATION_DETAILS_ROUTE } from '~/core/router'
 import {
   AddMoneyhashProviderDialogFragmentDoc,
   DeleteMoneyhashIntegrationDialogFragmentDoc,
   MoneyhashForCreateAndEditSuccessRedirectUrlFragmentDoc,
+  MoneyhashProvider,
   ProviderTypeEnum,
   useGetMoneyhashIntegrationsListQuery,
 } from '~/generated/graphql'
@@ -83,17 +85,26 @@ const MoneyhashIntegrations = () => {
   })
   const connections = data?.paymentProviders?.collection as MoneyhashProvider[] | undefined
   const deleteDialogCallback =
-    connections && connections.length === 1 ? () => navigate(INTEGRATIONS_ROUTE) : undefined
+    connections && connections.length === 1
+      ? () =>
+          navigate(
+            generatePath(INTEGRATIONS_ROUTE, {
+              integrationGroup: IntegrationsTabsOptionsEnum.Community,
+            }),
+          )
+      : undefined
   const canCreateIntegration = hasPermissions(['organizationIntegrationsCreate'])
   const canEditIntegration = hasPermissions(['organizationIntegrationsUpdate'])
   const canDeleteIntegration = hasPermissions(['organizationIntegrationsDelete'])
 
   return (
     <>
-      <PageHeader withSide>
-        <HeaderBlock>
+      <PageHeader.Wrapper withSide>
+        <PageHeader.Group>
           <ButtonLink
-            to={INTEGRATIONS_ROUTE}
+            to={generatePath(INTEGRATIONS_ROUTE, {
+              integrationGroup: IntegrationsTabsOptionsEnum.Community,
+            })}
             type="button"
             buttonProps={{ variant: 'quaternary', icon: 'arrow-left' }}
           />
@@ -104,7 +115,7 @@ const MoneyhashIntegrations = () => {
               {translate('text_1733427981129n3wxjui0bex')}
             </Typography>
           )}
-        </HeaderBlock>
+        </PageHeader.Group>
 
         {canCreateIntegration && (
           <Button
@@ -116,7 +127,7 @@ const MoneyhashIntegrations = () => {
             {translate('text_65846763e6140b469140e235')}
           </Button>
         )}
-      </PageHeader>
+      </PageHeader.Wrapper>
       <MainInfos>
         {loading ? (
           <>
@@ -168,6 +179,7 @@ const MoneyhashIntegrations = () => {
                         tabIndex={0}
                         to={generatePath(MONEYHASH_INTEGRATION_DETAILS_ROUTE, {
                           integrationId: connection.id,
+                          integrationGroup: IntegrationsTabsOptionsEnum.Community,
                         })}
                       >
                         <Stack direction="row" alignItems="center" spacing={3}>
@@ -258,14 +270,6 @@ const MoneyhashIntegrations = () => {
     </>
   )
 }
-
-const HeaderBlock = styled.div`
-  display: flex;
-  align-items: center;
-  > *:first-child {
-    margin-right: ${theme.spacing(3)};
-  }
-`
 
 const MainInfos = styled.div`
   display: flex;
