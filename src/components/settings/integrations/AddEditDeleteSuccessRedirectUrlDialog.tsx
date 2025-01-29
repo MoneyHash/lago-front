@@ -11,14 +11,17 @@ import {
   AdyenForCreateAndEditSuccessRedirectUrlFragment,
   CashfreeForCreateAndEditSuccessRedirectUrlFragment,
   GocardlessForCreateAndEditSuccessRedirectUrlFragment,
+  MoneyhashForCreateAndEditSuccessRedirectUrlFragment,
   StripeForCreateAndEditSuccessRedirectUrlFragment,
   UpdateAdyenPaymentProviderInput,
   UpdateCashfreePaymentProviderInput,
   UpdateGocardlessPaymentProviderInput,
+  UpdateMoneyhashPaymentProviderInput,
   UpdateStripePaymentProviderInput,
   useUpdateAdyenPaymentProviderMutation,
   useUpdateCashfreePaymentProviderMutation,
   useUpdateGocardlessPaymentProviderMutation,
+  useUpdateMoneyhashPaymentProviderMutation,
   useUpdateStripePaymentProviderMutation,
 } from '~/generated/graphql'
 import { useInternationalization } from '~/hooks/core/useInternationalization'
@@ -42,6 +45,11 @@ gql`
   fragment StripeForCreateAndEditSuccessRedirectUrl on StripeProvider {
     id
     successRedirectUrl
+  }
+
+  fragment MoneyhashForCreateAndEditSuccessRedirectUrl on MoneyhashProvider {
+    id
+    flowId
   }
 
   mutation updateAdyenPaymentProvider($input: UpdateAdyenPaymentProviderInput!) {
@@ -71,6 +79,13 @@ gql`
       successRedirectUrl
     }
   }
+
+  mutation updateMoneyhashPaymentProvider($input: UpdateMoneyhashPaymentProviderInput!) {
+    updateMoneyhashPaymentProvider(input: $input) {
+      id
+      flowId
+    }
+  }
 `
 
 const AddEditDeleteSuccessRedirectUrlDialogMode = {
@@ -83,6 +98,7 @@ const AddEditDeleteSuccessRedirectUrlDialogProviderType = {
   Adyen: 'Adyen',
   Stripe: 'Stripe',
   GoCardless: 'GoCardless',
+  Moneyhash: 'Moneyhash',
   Cashfree: 'Cashfree',
 } as const
 
@@ -94,6 +110,7 @@ type LocalProviderType = {
     | CashfreeForCreateAndEditSuccessRedirectUrlFragment
     | GocardlessForCreateAndEditSuccessRedirectUrlFragment
     | StripeForCreateAndEditSuccessRedirectUrlFragment
+    | MoneyhashForCreateAndEditSuccessRedirectUrlFragment
     | null
 }
 
@@ -158,11 +175,23 @@ export const AddEditDeleteSuccessRedirectUrlDialog =
       },
     })
 
+    const [updateMoneyhashProvider] = useUpdateMoneyhashPaymentProviderMutation({
+      onCompleted(data) {
+        if (data && data.updateMoneyhashPaymentProvider) {
+          addToast({
+            message: successToastMessage,
+            severity: 'success',
+          })
+        }
+      },
+    })
+
     const formikProps = useFormik<
       | UpdateAdyenPaymentProviderInput
       | UpdateCashfreePaymentProviderInput
       | UpdateGocardlessPaymentProviderInput
       | UpdateStripePaymentProviderInput
+      | UpdateMoneyhashPaymentProviderInput
     >({
       initialValues: {
         id: localData?.provider?.id || '',
@@ -178,6 +207,7 @@ export const AddEditDeleteSuccessRedirectUrlDialog =
           [AddEditDeleteSuccessRedirectUrlDialogProviderType.Adyen]: updateAdyenProvider,
           [AddEditDeleteSuccessRedirectUrlDialogProviderType.Stripe]: updateStripeProvider,
           [AddEditDeleteSuccessRedirectUrlDialogProviderType.GoCardless]: updateGocardlessProvider,
+          [AddEditDeleteSuccessRedirectUrlDialogProviderType.Moneyhash]: updateMoneyhashProvider,
           [AddEditDeleteSuccessRedirectUrlDialogProviderType.Cashfree]: updateCashfreeProvider,
         }
 

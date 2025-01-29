@@ -5,6 +5,7 @@ import { useInternationalization } from '~/hooks/core/useInternationalization'
 import Adyen from '~/public/images/adyen.svg'
 import Cashfree from '~/public/images/cashfree.svg'
 import Gocardless from '~/public/images/gocardless.svg'
+import Moneyhash from '~/public/images/moneyhash.svg'
 import Stripe from '~/public/images/stripe.svg'
 import { tw } from '~/styles/utils'
 
@@ -27,6 +28,10 @@ const providers: Record<ProviderTypeEnum, { icon: JSX.Element; label: string }> 
   [ProviderTypeEnum.Gocardless]: {
     icon: <Gocardless />,
     label: 'text_634ea0ecc6147de10ddb6625',
+  },
+  [ProviderTypeEnum.Moneyhash]: {
+    icon: <Moneyhash />,
+    label: 'text_1733427981129n3wxjui0bex',
   },
   [ProviderTypeEnum.Cashfree]: {
     icon: <Cashfree />,
