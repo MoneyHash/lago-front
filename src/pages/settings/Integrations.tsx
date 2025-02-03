@@ -515,6 +515,7 @@ const Integrations = () => {
                             )
                           } else {
                             const element = document.activeElement as HTMLElement
+
                             element.blur && element.blur()
                             addStripeDialogRef.current?.openDialog()
                           }
