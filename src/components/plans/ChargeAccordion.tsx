@@ -356,7 +356,7 @@ export const ChargeAccordion = memo(
       <Accordion
         noContentMargin
         id={id}
-        initiallyOpen={isInitiallyOpen || !formikProps.values.charges?.[index]?.id ? true : false}
+        initiallyOpen={!!(isInitiallyOpen || !formikProps.values.charges?.[index]?.id)}
         summary={
           <Summary>
             <ChargeSummaryLeftWrapper>
