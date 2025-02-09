@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client'
-import { Stack } from '@mui/material'
 import { FormikProps } from 'formik'
 import { Dispatch, FC, ReactNode, SetStateAction, useMemo } from 'react'
 
@@ -20,7 +19,6 @@ import Cashfree from '~/public/images/cashfree.svg'
 import GoCardless from '~/public/images/gocardless.svg'
 import Moneyhash from '~/public/images/moneyhash.svg'
 import Stripe from '~/public/images/stripe.svg'
-import { theme } from '~/styles'
 
 import { ExternalAppsAccordionLayout } from './ExternalAppsAccordionLayout'
 
@@ -221,9 +219,9 @@ export const PaymentProvidersAccordion: FC<PaymentProvidersAccordionProps> = ({
           </div>
 
           {formikProps.values.paymentProvider === ProviderTypeEnum.Moneyhash && (
-            <Stack gap={6} padding={4} borderTop={`1px solid ${theme.palette.grey[400]}`}>
+            <div className="border-t border-grey-400 p-4">
               <Alert type="info">{translate('text_64aeb7b998c4322918c84214')}</Alert>
-            </Stack>
+            </div>
           )}
 
           {formikProps.values.paymentProvider === ProviderTypeEnum.Stripe && (

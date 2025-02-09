@@ -1,10 +1,8 @@
 import { gql } from '@apollo/client'
-import { Stack } from '@mui/material'
 import { useFormik } from 'formik'
 import { forwardRef, RefObject, useImperativeHandle, useRef, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { generatePath } from 'react-router-dom'
-import styled from 'styled-components'
 import { object, string } from 'yup'
 
 import { Button, Dialog, DialogRef } from '~/components/designSystem'
@@ -22,7 +20,6 @@ import {
   useUpdateMoneyhashApiKeyMutation,
 } from '~/generated/graphql'
 import { useInternationalization } from '~/hooks/core/useInternationalization'
-import { theme } from '~/styles'
 
 import { DeleteMoneyhashIntegrationDialogRef } from './DeleteMoneyhashIntegrationDialog'
 
@@ -197,13 +194,7 @@ export const AddMoneyhashDialog = forwardRef<AddMoneyhashDialogRef>((_, ref) => 
       )}
       onClose={formikProps.resetForm}
       actions={({ closeDialog }) => (
-        <Stack
-          direction="row"
-          justifyContent="space-between"
-          alignItems="center"
-          width={isEdition ? '100%' : 'inherit'}
-          spacing={3}
-        >
+        <div className="flex w-full items-center gap-3">
           {isEdition && (
             <Button
               danger
@@ -219,7 +210,7 @@ export const AddMoneyhashDialog = forwardRef<AddMoneyhashDialogRef>((_, ref) => 
               {translate('text_65845f35d7d69c3ab4793dad')}
             </Button>
           )}
-          <Stack direction="row" spacing={3} alignItems="center">
+          <div className="ml-auto flex items-center gap-3">
             <Button variant="quaternary" onClick={closeDialog}>
               {translate('text_63eba8c65a6c8043feee2a14')}
             </Button>
@@ -232,13 +223,14 @@ export const AddMoneyhashDialog = forwardRef<AddMoneyhashDialogRef>((_, ref) => 
                 isEdition ? 'text_1733729938415dtehv31k9in' : 'text_1733489819311q0nzqi3u7wz',
               )}
             </Button>
-          </Stack>
-        </Stack>
+          </div>
+        </div>
       )}
     >
-      <Content>
-        <InlineInputs>
+      <div className="mb-8 flex flex-col gap-6">
+        <div className="flex items-start gap-6">
           <TextInputField
+            className="flex-1"
             // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus
             formikProps={formikProps}
@@ -247,12 +239,13 @@ export const AddMoneyhashDialog = forwardRef<AddMoneyhashDialogRef>((_, ref) => 
             placeholder={translate('text_6584550dc4cec7adf861504f')}
           />
           <TextInputField
+            className="flex-1"
             formikProps={formikProps}
             name="code"
             label={translate('text_6584550dc4cec7adf8615051')}
             placeholder={translate('text_6584550dc4cec7adf8615053')}
           />
-        </InlineInputs>
+        </div>
         <TextInputField
           name="apiKey"
           disabled={isEdition}
@@ -266,26 +259,9 @@ export const AddMoneyhashDialog = forwardRef<AddMoneyhashDialogRef>((_, ref) => 
           placeholder={translate('text_1737453902655bnm8uycr7o7')}
           formikProps={formikProps}
         />
-      </Content>
+      </div>
     </Dialog>
   )
 })
-
-const Content = styled.div`
-  margin-bottom: ${theme.spacing(8)};
-  > *:not(:last-child) {
-    margin-bottom: ${theme.spacing(6)};
-  }
-`
-
-const InlineInputs = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  gap: ${theme.spacing(6)};
-  > * {
-    flex: 1;
-  }
-`
 
 AddMoneyhashDialog.displayName = 'AddMoneyhashDialog'
