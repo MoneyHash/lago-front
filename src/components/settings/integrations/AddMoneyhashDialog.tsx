@@ -32,10 +32,14 @@ gql`
     name
     code
     apiKey
+    flowId
   }
   query getProviderByCodeForMoneyhash($code: String) {
     paymentProvider(code: $code) {
       ... on AdyenProvider {
+        id
+      }
+      ... on CashfreeProvider {
         id
       }
       ... on GocardlessProvider {

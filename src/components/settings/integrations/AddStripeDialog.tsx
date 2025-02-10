@@ -48,6 +48,9 @@ gql`
       ... on AdyenProvider {
         id
       }
+      ... on MoneyhashProvider {
+        id
+      }
     }
   }
 
