@@ -78,6 +78,7 @@ export type AddMoneyhashPaymentProviderInput = {
   code: Scalars['String']['input'];
   flowId: Scalars['String']['input'];
   name: Scalars['String']['input'];
+  successRedirectUrl?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type AddOn = {
@@ -3310,6 +3311,7 @@ export type MoneyhashProvider = {
   flowId?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
+  successRedirectUrl?: Maybe<Scalars['String']['output']>;
 };
 
 export type Mrr = {
@@ -7482,7 +7484,7 @@ export type GocardlessForCreateAndEditSuccessRedirectUrlFragment = { __typename?
 
 export type StripeForCreateAndEditSuccessRedirectUrlFragment = { __typename?: 'StripeProvider', id: string, successRedirectUrl?: string | null };
 
-export type MoneyhashForCreateAndEditSuccessRedirectUrlFragment = { __typename?: 'MoneyhashProvider', id: string, flowId?: string | null };
+export type MoneyhashForCreateAndEditSuccessRedirectUrlFragment = { __typename?: 'MoneyhashProvider', id: string, flowId?: string | null, successRedirectUrl?: string | null };
 
 export type UpdateAdyenPaymentProviderMutationVariables = Exact<{
   input: UpdateAdyenPaymentProviderInput;
@@ -7558,7 +7560,7 @@ export type UpdateOrgaForLagoTaxManagementMutationVariables = Exact<{
 
 export type UpdateOrgaForLagoTaxManagementMutation = { __typename?: 'Mutation', updateOrganization?: { __typename?: 'CurrentOrganization', id: string } | null };
 
-export type AddMoneyhashProviderDialogFragment = { __typename?: 'MoneyhashProvider', id: string, name: string, code: string, apiKey?: string | null };
+export type AddMoneyhashProviderDialogFragment = { __typename?: 'MoneyhashProvider', id: string, name: string, code: string, apiKey?: string | null, flowId?: string | null };
 
 export type GetProviderByCodeForMoneyhashQueryVariables = Exact<{
   code?: InputMaybe<Scalars['String']['input']>;
@@ -9356,7 +9358,7 @@ export type GetMoneyhashIntegrationsDetailsQueryVariables = Exact<{
 }>;
 
 
-export type GetMoneyhashIntegrationsDetailsQuery = { __typename?: 'Query', paymentProvider?: { __typename?: 'AdyenProvider' } | { __typename?: 'CashfreeProvider' } | { __typename?: 'GocardlessProvider' } | { __typename?: 'MoneyhashProvider', id: string, apiKey?: string | null, code: string, flowId?: string | null, name: string } | { __typename?: 'StripeProvider' } | null, paymentProviders?: { __typename?: 'PaymentProviderCollection', collection: Array<{ __typename?: 'AdyenProvider' } | { __typename?: 'CashfreeProvider' } | { __typename?: 'GocardlessProvider' } | { __typename?: 'MoneyhashProvider', id: string } | { __typename?: 'StripeProvider' }> } | null };
+export type GetMoneyhashIntegrationsDetailsQuery = { __typename?: 'Query', paymentProvider?: { __typename?: 'AdyenProvider' } | { __typename?: 'CashfreeProvider' } | { __typename?: 'GocardlessProvider' } | { __typename?: 'MoneyhashProvider', id: string, apiKey?: string | null, code: string, flowId?: string | null, name: string, successRedirectUrl?: string | null } | { __typename?: 'StripeProvider' } | null, paymentProviders?: { __typename?: 'PaymentProviderCollection', collection: Array<{ __typename?: 'AdyenProvider' } | { __typename?: 'CashfreeProvider' } | { __typename?: 'GocardlessProvider' } | { __typename?: 'MoneyhashProvider', id: string } | { __typename?: 'StripeProvider' }> } | null };
 
 export type MoneyhashIntegrationsFragment = { __typename?: 'MoneyhashProvider', id: string, name: string, code: string };
 
@@ -9366,7 +9368,7 @@ export type GetMoneyhashIntegrationsListQueryVariables = Exact<{
 }>;
 
 
-export type GetMoneyhashIntegrationsListQuery = { __typename?: 'Query', paymentProviders?: { __typename?: 'PaymentProviderCollection', collection: Array<{ __typename?: 'AdyenProvider' } | { __typename?: 'CashfreeProvider' } | { __typename?: 'GocardlessProvider' } | { __typename?: 'MoneyhashProvider', id: string, name: string, code: string, apiKey?: string | null } | { __typename?: 'StripeProvider' }> } | null };
+export type GetMoneyhashIntegrationsListQuery = { __typename?: 'Query', paymentProviders?: { __typename?: 'PaymentProviderCollection', collection: Array<{ __typename?: 'AdyenProvider' } | { __typename?: 'CashfreeProvider' } | { __typename?: 'GocardlessProvider' } | { __typename?: 'MoneyhashProvider', id: string, name: string, code: string, apiKey?: string | null, flowId?: string | null } | { __typename?: 'StripeProvider' }> } | null };
 
 export type NetsuiteIntegrationDetailsFragment = { __typename?: 'NetsuiteIntegration', id: string, name: string, accountId?: string | null, clientId?: string | null, clientSecret?: string | null, code: string, scriptEndpointUrl: string, syncCreditNotes?: boolean | null, syncInvoices?: boolean | null, syncPayments?: boolean | null, tokenId?: string | null, tokenSecret?: string | null };
 
@@ -10135,6 +10137,7 @@ export const MoneyhashForCreateAndEditSuccessRedirectUrlFragmentDoc = gql`
     fragment MoneyhashForCreateAndEditSuccessRedirectUrl on MoneyhashProvider {
   id
   flowId
+  successRedirectUrl
 }
     `;
 export const AddGocardlessProviderDialogFragmentDoc = gql`
@@ -10150,6 +10153,7 @@ export const AddMoneyhashProviderDialogFragmentDoc = gql`
   name
   code
   apiKey
+  flowId
 }
     `;
 export const AddStripeProviderDialogFragmentDoc = gql`

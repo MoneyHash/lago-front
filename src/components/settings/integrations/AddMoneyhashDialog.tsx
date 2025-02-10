@@ -32,6 +32,7 @@ gql`
     name
     code
     apiKey
+    flowId
   }
   query getProviderByCodeForMoneyhash($code: String) {
     paymentProvider(code: $code) {
