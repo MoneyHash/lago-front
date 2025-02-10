@@ -7421,7 +7421,7 @@ export type GetProviderByCodeForAdyenQueryVariables = Exact<{
 }>;
 
 
-export type GetProviderByCodeForAdyenQuery = { __typename?: 'Query', paymentProvider?: { __typename?: 'AdyenProvider', id: string } | { __typename?: 'CashfreeProvider', id: string } | { __typename?: 'GocardlessProvider', id: string } | { __typename?: 'MoneyhashProvider' } | { __typename?: 'StripeProvider', id: string } | null };
+export type GetProviderByCodeForAdyenQuery = { __typename?: 'Query', paymentProvider?: { __typename?: 'AdyenProvider', id: string } | { __typename?: 'CashfreeProvider', id: string } | { __typename?: 'GocardlessProvider', id: string } | { __typename?: 'MoneyhashProvider', id: string } | { __typename?: 'StripeProvider', id: string } | null };
 
 export type AddAdyenApiKeyMutationVariables = Exact<{
   input: AddAdyenPaymentProviderInput;
@@ -7460,7 +7460,7 @@ export type GetProviderByCodeForCashfreeQueryVariables = Exact<{
 }>;
 
 
-export type GetProviderByCodeForCashfreeQuery = { __typename?: 'Query', paymentProvider?: { __typename?: 'AdyenProvider', id: string } | { __typename?: 'CashfreeProvider', id: string } | { __typename?: 'GocardlessProvider', id: string } | { __typename?: 'MoneyhashProvider' } | { __typename?: 'StripeProvider', id: string } | null };
+export type GetProviderByCodeForCashfreeQuery = { __typename?: 'Query', paymentProvider?: { __typename?: 'AdyenProvider', id: string } | { __typename?: 'CashfreeProvider', id: string } | { __typename?: 'GocardlessProvider', id: string } | { __typename?: 'MoneyhashProvider', id: string } | { __typename?: 'StripeProvider', id: string } | null };
 
 export type AddCashfreeApiKeyMutationVariables = Exact<{
   input: AddCashfreePaymentProviderInput;
@@ -7528,7 +7528,7 @@ export type GetProviderByCodeForGocardlessQueryVariables = Exact<{
 }>;
 
 
-export type GetProviderByCodeForGocardlessQuery = { __typename?: 'Query', paymentProvider?: { __typename?: 'AdyenProvider', id: string } | { __typename?: 'CashfreeProvider', id: string } | { __typename?: 'GocardlessProvider', id: string } | { __typename?: 'MoneyhashProvider' } | { __typename?: 'StripeProvider', id: string } | null };
+export type GetProviderByCodeForGocardlessQuery = { __typename?: 'Query', paymentProvider?: { __typename?: 'AdyenProvider', id: string } | { __typename?: 'CashfreeProvider', id: string } | { __typename?: 'GocardlessProvider', id: string } | { __typename?: 'MoneyhashProvider', id: string } | { __typename?: 'StripeProvider', id: string } | null };
 
 export type UpdateGocardlessApiKeyMutationVariables = Exact<{
   input: UpdateGocardlessPaymentProviderInput;
@@ -7567,7 +7567,7 @@ export type GetProviderByCodeForMoneyhashQueryVariables = Exact<{
 }>;
 
 
-export type GetProviderByCodeForMoneyhashQuery = { __typename?: 'Query', paymentProvider?: { __typename?: 'AdyenProvider', id: string } | { __typename?: 'CashfreeProvider' } | { __typename?: 'GocardlessProvider', id: string } | { __typename?: 'MoneyhashProvider', id: string } | { __typename?: 'StripeProvider', id: string } | null };
+export type GetProviderByCodeForMoneyhashQuery = { __typename?: 'Query', paymentProvider?: { __typename?: 'AdyenProvider', id: string } | { __typename?: 'CashfreeProvider', id: string } | { __typename?: 'GocardlessProvider', id: string } | { __typename?: 'MoneyhashProvider', id: string } | { __typename?: 'StripeProvider', id: string } | null };
 
 export type AddMoneyhashApiKeyMutationVariables = Exact<{
   input: AddMoneyhashPaymentProviderInput;
@@ -7622,7 +7622,7 @@ export type GetProviderByCodeForStripeQueryVariables = Exact<{
 }>;
 
 
-export type GetProviderByCodeForStripeQuery = { __typename?: 'Query', paymentProvider?: { __typename?: 'AdyenProvider', id: string } | { __typename?: 'CashfreeProvider', id: string } | { __typename?: 'GocardlessProvider', id: string } | { __typename?: 'MoneyhashProvider' } | { __typename?: 'StripeProvider', id: string } | null };
+export type GetProviderByCodeForStripeQuery = { __typename?: 'Query', paymentProvider?: { __typename?: 'AdyenProvider', id: string } | { __typename?: 'CashfreeProvider', id: string } | { __typename?: 'GocardlessProvider', id: string } | { __typename?: 'MoneyhashProvider', id: string } | { __typename?: 'StripeProvider', id: string } | null };
 
 export type AddStripeApiKeyMutationVariables = Exact<{
   input: AddStripePaymentProviderInput;
@@ -16846,6 +16846,9 @@ export const GetProviderByCodeForAdyenDocument = gql`
     ... on StripeProvider {
       id
     }
+    ... on MoneyhashProvider {
+      id
+    }
   }
 }
     `;
@@ -17039,6 +17042,9 @@ export const GetProviderByCodeForCashfreeDocument = gql`
       id
     }
     ... on StripeProvider {
+      id
+    }
+    ... on MoneyhashProvider {
       id
     }
   }
@@ -17334,6 +17340,9 @@ export const GetProviderByCodeForGocardlessDocument = gql`
     ... on StripeProvider {
       id
     }
+    ... on MoneyhashProvider {
+      id
+    }
   }
 }
     `;
@@ -17509,6 +17518,9 @@ export const GetProviderByCodeForMoneyhashDocument = gql`
     query getProviderByCodeForMoneyhash($code: String) {
   paymentProvider(code: $code) {
     ... on AdyenProvider {
+      id
+    }
+    ... on CashfreeProvider {
       id
     }
     ... on GocardlessProvider {
@@ -17773,6 +17785,9 @@ export const GetProviderByCodeForStripeDocument = gql`
       id
     }
     ... on AdyenProvider {
+      id
+    }
+    ... on MoneyhashProvider {
       id
     }
   }
