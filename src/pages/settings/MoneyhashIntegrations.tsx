@@ -1,8 +1,6 @@
 import { gql } from '@apollo/client'
-import { Stack } from '@mui/material'
 import { useRef } from 'react'
 import { generatePath, useNavigate } from 'react-router-dom'
-import styled from 'styled-components'
 
 import {
   Avatar,
@@ -40,15 +38,7 @@ import {
 import { useInternationalization } from '~/hooks/core/useInternationalization'
 import { usePermissions } from '~/hooks/usePermissions'
 import Moneyhash from '~/public/images/moneyhash.svg'
-import {
-  ItemContainer,
-  ListItemLink,
-  MenuPopper,
-  NAV_HEIGHT,
-  PageHeader,
-  PopperOpener,
-  theme,
-} from '~/styles'
+import { ItemContainer, ListItemLink, MenuPopper, PageHeader, PopperOpener } from '~/styles'
 
 gql`
   fragment MoneyhashIntegrations on MoneyhashProvider {
@@ -128,7 +118,7 @@ const MoneyhashIntegrations = () => {
           </Button>
         )}
       </PageHeader.Wrapper>
-      <MainInfos>
+      <div className="flex items-center px-4 py-8 md:px-12">
         {loading ? (
           <>
             <Skeleton variant="connectorAvatar" size="large" className="mr-4" />
@@ -143,31 +133,34 @@ const MoneyhashIntegrations = () => {
               <Moneyhash />
             </Avatar>
             <div>
-              <Line>
+              <div className="flex items-center gap-2">
                 <Typography variant="headline">
                   {translate('text_1733427981129n3wxjui0bex')}
                 </Typography>
                 <Chip label={translate('text_62b1edddbf5f461ab971270d')} />
-              </Line>
+              </div>
               <Typography>{translate('text_62b1edddbf5f461ab971271f')}</Typography>
             </div>
           </>
         )}
-      </MainInfos>
-      <ListWrapper>
+      </div>
+      <div className="flex max-w-168 flex-col gap-8 px-4 md:px-12">
         <section>
-          <InlineTitle>
+          <div className="flex h-nav w-full items-center">
             <Typography variant="subhead">{translate('text_65846763e6140b469140e239')}</Typography>
-          </InlineTitle>
+          </div>
 
           <>
             {loading ? (
               <>
                 {[1, 2].map((i) => (
-                  <ListItem key={`item-skeleton-item-${i}`}>
+                  <div
+                    className="flex h-nav items-center gap-3 shadow-b"
+                    key={`item-skeleton-item-${i}`}
+                  >
                     <Skeleton variant="connectorAvatar" size="big" className="mr-4" />
                     <Skeleton variant="text" className="w-60" />
-                  </ListItem>
+                  </div>
                 ))}
               </>
             ) : (
@@ -175,14 +168,15 @@ const MoneyhashIntegrations = () => {
                 {connections?.map((connection, index) => {
                   return (
                     <ItemContainer key={`moneyhash-connection-${index}`}>
-                      <LocalListItemLink
+                      <ListItemLink
+                        className="p-0"
                         tabIndex={0}
                         to={generatePath(MONEYHASH_INTEGRATION_DETAILS_ROUTE, {
                           integrationId: connection.id,
                           integrationGroup: IntegrationsTabsOptionsEnum.Community,
                         })}
                       >
-                        <Stack direction="row" alignItems="center" spacing={3}>
+                        <div className="flex items-center gap-3">
                           <Avatar variant="connector" size="big">
                             <Icon name="plug" color="dark" />
                           </Avatar>
@@ -194,14 +188,13 @@ const MoneyhashIntegrations = () => {
                               {connection.code}
                             </Typography>
                           </div>
-                          <ButtonMock />
-                        </Stack>
-                      </LocalListItemLink>
+                        </div>
+                      </ListItemLink>
                       {(canEditIntegration || canDeleteIntegration) && (
                         <Popper
                           PopperProps={{ placement: 'bottom-end' }}
                           opener={({ isOpen }) => (
-                            <LocalPopperOpener>
+                            <PopperOpener className="right-0">
                               <Tooltip
                                 placement="top-end"
                                 disableHoverListener={isOpen}
@@ -213,7 +206,7 @@ const MoneyhashIntegrations = () => {
                                   data-test="plan-item-options"
                                 />
                               </Tooltip>
-                            </LocalPopperOpener>
+                            </PopperOpener>
                           )}
                         >
                           {({ closePopper }) => (
@@ -263,73 +256,12 @@ const MoneyhashIntegrations = () => {
             )}
           </>
         </section>
-      </ListWrapper>
+      </div>
       <AddMoneyhashDialog ref={addMoneyhashDialogRef} />
       <DeleteMoneyhashIntegrationDialog ref={deleteDialogRef} />
       <AddEditDeleteSuccessRedirectUrlDialog ref={successRedirectUrlDialogRef} />
     </>
   )
 }
-
-const MainInfos = styled.div`
-  display: flex;
-  align-items: center;
-  padding: ${theme.spacing(8)} ${theme.spacing(12)};
-  ${theme.breakpoints.down('md')} {
-    padding: ${theme.spacing(8)} ${theme.spacing(4)};
-  }
-`
-
-const ListWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${theme.spacing(8)};
-  padding: 0 ${theme.spacing(12)};
-  box-sizing: border-box;
-  max-width: ${theme.spacing(168)};
-  ${theme.breakpoints.down('md')} {
-    padding: 0 ${theme.spacing(4)};
-  }
-`
-
-const InlineTitle = styled.div`
-  position: relative;
-  height: ${NAV_HEIGHT}px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`
-
-const LocalListItemLink = styled(ListItemLink)`
-  padding: 0;
-`
-
-const ListItem = styled.div`
-  height: ${NAV_HEIGHT}px;
-  box-shadow: ${theme.shadows[7]};
-  display: flex;
-  align-items: center;
-  > *:first-child {
-    margin-right: ${theme.spacing(3)};
-  }
-`
-
-const Line = styled.div`
-  display: flex;
-  align-items: center;
-  > *:first-child {
-    margin-right: ${theme.spacing(2)};
-  }
-`
-
-const ButtonMock = styled.div`
-  width: 40px;
-  min-width: 40px;
-`
-
-const LocalPopperOpener = styled(PopperOpener)`
-  right: 0;
-`
 
 export default MoneyhashIntegrations

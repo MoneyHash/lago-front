@@ -1,7 +1,6 @@
 import { gql } from '@apollo/client'
 import { useRef } from 'react'
 import { generatePath, useNavigate, useParams } from 'react-router-dom'
-import styled from 'styled-components'
 
 import {
   Avatar,
@@ -38,7 +37,7 @@ import {
 import { useInternationalization } from '~/hooks/core/useInternationalization'
 import { usePermissions } from '~/hooks/usePermissions'
 import Moneyhash from '~/public/images/moneyhash.svg'
-import { MenuPopper, NAV_HEIGHT, PageHeader, theme } from '~/styles'
+import { MenuPopper, PageHeader } from '~/styles'
 
 const PROVIDER_CONNECTION_LIMIT = 2
 
@@ -177,7 +176,7 @@ const MoneyhashIntegrationDetails = () => {
           <>
             <Skeleton className="mr-4" variant="connectorAvatar" size="large" />
             <div>
-              <Skeleton className="mb-5 w-50" variant="text" />
+              <Skeleton className="mb-1 w-50" variant="text" />
               <Skeleton className="w-32" variant="text" />
             </div>
           </>
@@ -187,10 +186,10 @@ const MoneyhashIntegrationDetails = () => {
               <Moneyhash />
             </Avatar>
             <div>
-              <Line>
+              <div className="flex items-center gap-2">
                 <Typography variant="headline">{moneyhashPaymentProvider?.name}</Typography>
                 <Chip label={translate('text_62b1edddbf5f461ab971270d')} />
-              </Line>
+              </div>
               <Typography>
                 {translate('text_1733427981129n3wxjui0bex')}&nbsp;•&nbsp;
                 {translate('text_62b1edddbf5f461ab971271f')}
@@ -199,140 +198,103 @@ const MoneyhashIntegrationDetails = () => {
           </>
         )}
       </div>
-      <Settings>
-        <section>
-          <InlineTitle>
-            <Typography variant="subhead">{translate('text_645d071272418a14c1c76a9a')}</Typography>
+      <section className="max-w-168 px-4 md:px-12">
+        <div className="relative flex h-nav items-center justify-between">
+          <Typography variant="subhead">{translate('text_645d071272418a14c1c76a9a')}</Typography>
 
-            {canEditIntegration && (
-              <Button
-                variant="quaternary"
-                disabled={loading}
-                onClick={() => {
-                  addMoneyhashDialogRef.current?.openDialog({
-                    provider: moneyhashPaymentProvider,
-                    deleteModalRef: deleteDialogRef,
-                    deleteDialogCallback,
-                  })
-                }}
-              >
-                {translate('text_62b1edddbf5f461ab9712787')}
-              </Button>
-            )}
-          </InlineTitle>
+          {canEditIntegration && (
+            <Button
+              variant="quaternary"
+              disabled={loading}
+              onClick={() => {
+                addMoneyhashDialogRef.current?.openDialog({
+                  provider: moneyhashPaymentProvider,
+                  deleteModalRef: deleteDialogRef,
+                  deleteDialogCallback,
+                })
+              }}
+            >
+              {translate('text_62b1edddbf5f461ab9712787')}
+            </Button>
+          )}
+        </div>
 
-          <>
-            {loading ? (
-              <>
-                {[0, 1, 2].map((i) => (
-                  <ApiKeyItem key={`item-skeleton-item-${i}`}>
-                    <Skeleton variant="connectorAvatar" size="big" />
-                    <Skeleton variant="text" className="w-60" />
-                  </ApiKeyItem>
-                ))}
-              </>
-            ) : (
-              <>
-                <ApiKeyItem>
-                  <Avatar variant="connector" size="big">
-                    <Icon name="text" color="dark" />
-                  </Avatar>
-                  <div>
-                    <Typography variant="caption" color="grey600">
-                      {translate('text_626162c62f790600f850b76a')}
-                    </Typography>
-                    <Typography variant="body" color="grey700">
-                      {moneyhashPaymentProvider?.name}
-                    </Typography>
-                  </div>
-                </ApiKeyItem>
-                <ApiKeyItem>
-                  <Avatar variant="connector" size="big">
-                    <Icon name="id" color="dark" />
-                  </Avatar>
-                  <div>
-                    <Typography variant="caption" color="grey600">
-                      {translate('text_62876e85e32e0300e1803127')}
-                    </Typography>
-                    <Typography variant="body" color="grey700">
-                      {moneyhashPaymentProvider?.code}
-                    </Typography>
-                  </div>
-                </ApiKeyItem>
-                <ApiKeyItem>
-                  <Avatar variant="connector" size="big">
-                    <Icon name="key" color="dark" />
-                  </Avatar>
-                  <div>
-                    <Typography variant="caption" color="grey600">
-                      {translate('text_645d071272418a14c1c76aa4')}
-                    </Typography>
-                    <Typography variant="body" color="grey700">
-                      {moneyhashPaymentProvider?.apiKey}
-                    </Typography>
-                  </div>
-                </ApiKeyItem>
-                <ApiKeyItem>
-                  <Avatar variant="connector" size="big">
-                    <Icon name="globe" color="dark" />
-                  </Avatar>
-                  <div>
-                    <Typography variant="caption" color="grey600">
-                      {translate('text_1737453888927uw38sepj7xy')}
-                    </Typography>
-                    <Typography variant="body" color="grey700">
-                      {moneyhashPaymentProvider.flowId}
-                    </Typography>
-                  </div>
-                </ApiKeyItem>
-              </>
-            )}
-          </>
-        </section>
-      </Settings>
+        <>
+          {loading ? (
+            <>
+              {[0, 1, 2].map((i) => (
+                <div
+                  className="flex h-nav items-center gap-3 shadow-b"
+                  key={`item-skeleton-item-${i}`}
+                >
+                  <Skeleton variant="connectorAvatar" size="big" />
+                  <Skeleton variant="text" className="w-60" />
+                </div>
+              ))}
+            </>
+          ) : (
+            <>
+              <div className="flex h-nav items-center gap-3 shadow-b">
+                <Avatar variant="connector" size="big">
+                  <Icon name="text" color="dark" />
+                </Avatar>
+                <div>
+                  <Typography variant="caption" color="grey600">
+                    {translate('text_626162c62f790600f850b76a')}
+                  </Typography>
+                  <Typography variant="body" color="grey700">
+                    {moneyhashPaymentProvider?.name}
+                  </Typography>
+                </div>
+              </div>
+              <div className="flex h-nav items-center gap-3 shadow-b">
+                <Avatar variant="connector" size="big">
+                  <Icon name="id" color="dark" />
+                </Avatar>
+                <div>
+                  <Typography variant="caption" color="grey600">
+                    {translate('text_62876e85e32e0300e1803127')}
+                  </Typography>
+                  <Typography variant="body" color="grey700">
+                    {moneyhashPaymentProvider?.code}
+                  </Typography>
+                </div>
+              </div>
+              <div className="flex h-nav items-center gap-3 shadow-b">
+                <Avatar variant="connector" size="big">
+                  <Icon name="key" color="dark" />
+                </Avatar>
+                <div>
+                  <Typography variant="caption" color="grey600">
+                    {translate('text_645d071272418a14c1c76aa4')}
+                  </Typography>
+                  <Typography variant="body" color="grey700">
+                    {moneyhashPaymentProvider?.apiKey}
+                  </Typography>
+                </div>
+              </div>
+              <div className="flex h-nav items-center gap-3 shadow-b">
+                <Avatar variant="connector" size="big">
+                  <Icon name="globe" color="dark" />
+                </Avatar>
+                <div>
+                  <Typography variant="caption" color="grey600">
+                    {translate('text_1737453888927uw38sepj7xy')}
+                  </Typography>
+                  <Typography variant="body" color="grey700">
+                    {moneyhashPaymentProvider.flowId}
+                  </Typography>
+                </div>
+              </div>
+            </>
+          )}
+        </>
+      </section>
       <AddMoneyhashDialog ref={addMoneyhashDialogRef} />
       <DeleteMoneyhashIntegrationDialog ref={deleteDialogRef} />
       <AddEditDeleteSuccessRedirectUrlDialog ref={successRedirectUrlDialogRef} />
     </>
   )
 }
-
-const Settings = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${theme.spacing(8)};
-  padding: 0 ${theme.spacing(12)};
-  box-sizing: border-box;
-  max-width: ${theme.spacing(168)};
-  ${theme.breakpoints.down('md')} {
-    padding: 0 ${theme.spacing(4)};
-  }
-`
-
-const InlineTitle = styled.div`
-  position: relative;
-  height: ${NAV_HEIGHT}px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`
-const ApiKeyItem = styled.div`
-  height: ${NAV_HEIGHT}px;
-  box-shadow: ${theme.shadows[7]};
-  display: flex;
-  align-items: center;
-  > *:first-child {
-    margin-right: ${theme.spacing(3)};
-  }
-`
-
-const Line = styled.div`
-  display: flex;
-  align-items: center;
-  > *:first-child {
-    margin-right: ${theme.spacing(2)};
-  }
-`
 
 export default MoneyhashIntegrationDetails
