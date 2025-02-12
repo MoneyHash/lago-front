@@ -36,6 +36,7 @@ import Anrok from '~/public/images/anrok.svg'
 import Cashfree from '~/public/images/cashfree.svg'
 import Gocardless from '~/public/images/gocardless.svg'
 import Hubspot from '~/public/images/hubspot.svg'
+import Moneyhash from '~/public/images/moneyhash.svg'
 import Netsuite from '~/public/images/netsuite.svg'
 import Salesforce from '~/public/images/salesforce.svg'
 import Stripe from '~/public/images/stripe.svg'
@@ -137,6 +138,12 @@ gql`
         }
 
         ... on CashfreeProvider {
+          id
+          name
+          code
+        }
+
+        ... on MoneyhashProvider {
           id
           name
           code
@@ -562,6 +569,8 @@ export const CustomerMainInfos = ({ loading, customer, onEdit }: CustomerMainInf
                         <Adyen />
                       ) : paymentProvider === ProviderTypeEnum?.Cashfree ? (
                         <Cashfree />
+                      ) : paymentProvider === ProviderTypeEnum?.Moneyhash ? (
+                        <Moneyhash />
                       ) : null}
                     </Avatar>
                     <Typography color="grey700">{linkedProvider?.name}</Typography>
